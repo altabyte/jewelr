@@ -17,6 +17,10 @@ Bundler.require(*Rails.groups)
 
 module Jewelr
   class Application < Rails::Application
+
+    # Change schema dump format to SQL as Hstore cannot be represented in Ruby.
+    config.active_record.schema_format = :sql
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
