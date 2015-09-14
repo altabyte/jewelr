@@ -1,0 +1,3 @@
+rails new jewelr -T --database=postgresql
+./bin/bundle install --path=vendor/bundle
+
