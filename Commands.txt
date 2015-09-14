@@ -1,3 +1,7 @@
 rails new jewelr -T --database=postgresql
 ./bin/bundle install --path=vendor/bundle
 
+./bin/rake db:setup
+./bin/rake db:setup RAILS_ENV=test
+./bin/rake db:migrate
+./bin/rake db:test:prepare
