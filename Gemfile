@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 
+# Must be before other gems that rely on environmental variables!
+gem 'dotenv-rails', require: 'dotenv/rails-now', :groups => [:development, :test]
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 gem 'pg'
@@ -38,7 +41,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'dotenv'
   gem 'rspec-rails'
 end
 
