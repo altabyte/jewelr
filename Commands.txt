@@ -12,3 +12,6 @@ rails new jewelr -T --database=postgresql
 ./bin/rails g controller home index
 
 ./bin/rails g migration add_postgres_hstore
+
+./bin/rails g migration add_uid_index_sequence
+./bin/rake db:migrate

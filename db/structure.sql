@@ -53,6 +53,18 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: uid_sequence_index; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE uid_sequence_index
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -66,4 +78,6 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20150914215124');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915011714');
 
