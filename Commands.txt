@@ -15,3 +15,7 @@ rails new jewelr -T --database=postgresql
 
 ./bin/rails g migration add_uid_index_sequence
 ./bin/rake db:migrate
+
+# Create rake task to generate UIDs
+./bin/rails g task uid
+./bin/rake uid:generate_uids

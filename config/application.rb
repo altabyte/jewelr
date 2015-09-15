@@ -30,7 +30,7 @@ module Jewelr
     config.uid.digits         = 7
     config.uid.per_file       = 1_000_000
     config.uid.path           = Rails.root.join('config/uids')
-    config.uid.file_prefix    = 'UIDs_'
+    config.uid.file_prefix    = 'uids_'
     config.uid.file_extension = '.txt'
     config.uid.seed           = ENV['UID_GENERATOR_SEED'].to_i
 

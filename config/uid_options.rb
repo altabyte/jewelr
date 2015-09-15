@@ -6,6 +6,10 @@ module Jewelr
       @index_source = source
     end
 
+    def index_source
+      @index_source ||= :postgres
+    end
+
     def redis?
       @index_source == :redis
     end
@@ -26,6 +30,10 @@ module Jewelr
         key = "Jewelr__#{key}"
       end
       key.freeze
+    end
+
+    def file_path(file_number)
+      Pathname.new("#{path}/#{file_prefix}#{file_number.to_s.rjust(2, '0')}#{file_extension}")
     end
   end
 end
