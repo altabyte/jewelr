@@ -1,24 +1,24 @@
-require 'uid_values'
+require 'uid/sequence'
 
 namespace :uid do
-  include UidValues
+  include UID::Sequence
 
   # ./bin/rake uid:sequence_index
   desc 'Get the current UID sequence index'
   task :sequence_index do
-    puts "#{Rails.configuration.uid.index_source} -> #{UidValues.current_uid_index}"
+    puts "#{UID.configuration.sequence_source} -> #{UID::Sequence.current_uid_index}"
   end
 
 
-  # ./bin/rake uid:generate_uids
+  # ./bin/rake uid:generate
   desc 'Generate UIDs for project'
-  task :generate_uids do
+  task :generate do
     puts 'Generating random UID list...'
     min      = 1_000_000  # Smallest number
     max      = 9_999_999  # Largest number
-    path     = Rails.configuration.uid.path
-    seed     = Rails.configuration.uid.seed
-    per_file = Rails.configuration.uid.per_file
+    path     = UID.configuration.path
+    seed     = UID.configuration.seed
+    per_file = UID.configuration.per_file
 
     require 'fileutils'
     FileUtils.mkpath(path)
@@ -51,8 +51,8 @@ namespace :uid do
     # This will ensure each file has exactly UIDS_PER_FILE elements.
     (1..(total_number_of_files)).each do |file_number|
       range = ((per_file * (file_number - 1))...(per_file * file_number))
-      open("#{Rails.configuration.uid.file_path(file_number)}", 'w') do |file|
-        range.each { |n| file.puts "#{uids[n].to_s.rjust(Rails.configuration.uid.digits, '0')}" if uids[n] }
+      open("#{UID.configuration.file_path(file_number)}", 'w') do |file|
+        range.each { |n| file.puts "#{uids[n].to_s.rjust(UID.configuration.digits, '0')}" if uids[n] }
       end
     end
   end
