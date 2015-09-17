@@ -1,5 +1,18 @@
 == README
 
+# Generate UIDs
+
+    $ ./bin/rake uid:generate
+
+    $ ./bin/rake uid:reset_sequence_index
+
+or if you need the sequence to start at a specific value, such as 100:
+
+    $ ./bin/rake "uid:reset_sequence_index[100]"
+
+Note the quotes around the rake task name when passing arguments!
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

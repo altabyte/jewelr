@@ -1,17 +1,56 @@
+require 'uid/reset'
 require 'uid/sequence'
 
 namespace :uid do
+  include UID::Reset
   include UID::Sequence
 
   # ./bin/rake uid:sequence_index
+  #
   desc 'Get the current UID sequence index'
   task :sequence_index do
     puts "#{UID.configuration.sequence_source} -> #{UID::Sequence.current_uid_index}"
   end
 
 
+  # ./bin/rake uid:next
+  #
+  desc 'Display the next UID and its sequence index value.'
+  task :next do
+    puts UID::Sequence.next_uid_with_index
+  end
+
+
+  # ./bin/rake uid:reset_sequence_index
+  #
+  # Reset with a custom value, such as 100.
+  # Note "quotes" around rake task to pass arguments!
+  #
+  # ./bin/rake "uid:reset_sequence_index[100]"
+  #
+  desc 'Reset the sequence index value back to 1, or to the specified optional argument value'
+  task :reset_sequence_index, [:value]  do |_, args|
+    begin
+      value = (args[:value] || 0).to_i
+      value = 1 if value == 0 && UID.configuration.postgres?
+      raise "Sequence reset value '#{value}' is not valid!" if value < 0
+      STDOUT.print "Are you sure you want to reset #{UID.configuration.sequence_source} sequence index value from #{UID::Sequence.current_uid_index} to #{value} [Yn]  "
+      choice = STDIN.gets.chomp.strip
+      if !choice.blank? && choice[0].downcase == 'y'
+        diff = UID::Reset.reset(value)
+        puts "#{UID.configuration.sequence_source.to_s.capitalize} sequence index value RESET from #{diff.first} to #{diff.last}"
+      else
+        puts "#{UID.configuration.sequence_source.to_s.capitalize} sequence index value remains at #{UID::Sequence.current_uid_index}"
+      end
+    rescue Exception => e
+      puts e.message
+    end
+  end
+
+
   # ./bin/rake uid:generate
-  desc 'Generate UIDs for project'
+  #
+  desc 'Generate the UIDs'
   task :generate do
     puts 'Generating random UID list...'
     min      = 1_000_000  # Smallest number

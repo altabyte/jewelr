@@ -24,10 +24,6 @@ module UID
     def postgres?
       !redis?
     end
-
-    def file_path(file_number)
-      Pathname.new("#{path}/#{file_prefix}#{file_number.to_s.rjust(2, '0')}#{file_extension}")
-    end
   end
 end
 
