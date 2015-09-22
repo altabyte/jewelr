@@ -19,3 +19,7 @@ rails new jewelr -T --database=postgresql
 # Create rake task to generate UIDs
 ./bin/rails g task uid
 ./bin/rake uid:generate_uids
+
+# User authentication
+./bin/rails g devise:install
+./bin/rails g devise User

@@ -22,6 +22,10 @@ module Jewelr
     # Change schema dump format to SQL as Hstore cannot be represented in Ruby.
     config.active_record.schema_format = :sql
 
+    # Set mailer for Devise
+    # !! Set production mailer in /config/environments/production.rb !!
+    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
