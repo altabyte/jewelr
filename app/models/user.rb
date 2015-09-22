@@ -21,6 +21,14 @@ class User < ActiveRecord::Base
     self[:username] = username.blank? ? nil : username
   end
 
+  def locale
+    (self.settings['locale'] || I18n.default_locale).to_sym
+  end
+
+  def locale=(locale)
+    self.settings['locale'] = locale if I18n.locale_available?(locale)
+    self.locale
+  end
 
   def generate_authentication_token(length = AUTH_TOKEN_LENGTH)
     loop do
