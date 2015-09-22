@@ -8,6 +8,22 @@
 </head>
 <body>
 
+<header>
+  <nav id="access-links">
+    <% if user_signed_in? -%>
+        <%= current_user.email %> &nbsp;
+        <%= link_to 'Logout', destroy_user_session_path, :method => :delete, :confirm => 'Are you sure you want to log out?' %>
+    <% else -%>
+        <%#= link_to "Sign up", new_user_registration_path %>
+        <%= link_to (t 'devise.fields.login'), new_user_session_path %>
+    <% end -%>
+  </nav>
+  <div id="flash">
+    <p id="notice" class="notice"><%= notice %></p>
+    <p id="alert" class="alert"><%= alert %></p>
+  </div>
+</header>
+
 <div id="<%= controller_name %>">
   <%= yield %>
 </div>
