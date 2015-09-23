@@ -1,8 +1,6 @@
 module UID
   module Sequence
 
-    @@next_uid_lock = Mutex.new
-
     IndexedUID = Struct.new(:index, :uid) do
       def to_s
         "#{index}: #{uid}"
@@ -39,6 +37,8 @@ module UID
 
     #-------------------------------------------------------------------------
     private
+
+    @@next_uid_lock = Mutex.new
 
     def next_uid_index
       if UID.configuration.redis?

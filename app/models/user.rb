@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include UniquelyIdentifiable
 
   AUTH_TOKEN_LENGTH = 100
 
