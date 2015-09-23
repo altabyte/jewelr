@@ -24,3 +24,5 @@ rails new jewelr -T --database=postgresql
 ./bin/rails g devise:install
 ./bin/rails g devise User
 ./bin/rails g devise:views
+
+./bin/rails g controller dashboard index
