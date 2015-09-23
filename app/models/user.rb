@@ -1,3 +1,5 @@
+require 'serializers/hash_serializer'
+
 class User < ActiveRecord::Base
   include UniquelyIdentifiable
 
@@ -12,6 +14,11 @@ class User < ActiveRecord::Base
          :trackable,
          :validatable
 
+  store_accessor :settings, :locale
+
+  # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
+  serialize :settings, HashSerializer
+
   before_validation(on: :create) { ensure_authentication_token }
   before_validation { ensure_user_id }
 
@@ -23,11 +30,11 @@ class User < ActiveRecord::Base
   end
 
   def locale
-    (self.settings['locale'] || I18n.default_locale).to_sym
+    (self.settings[:locale] || I18n.default_locale).to_sym
   end
 
   def locale=(locale)
-    self.settings['locale'] = locale if I18n.locale_available?(locale)
+    self.settings[:locale] = locale if I18n.locale_available?(locale)
     self.locale
   end
 

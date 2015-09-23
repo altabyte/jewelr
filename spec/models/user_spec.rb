@@ -52,11 +52,31 @@ RSpec.describe User, type: :model do
       expect(user.locale).to eq(:zh)
       user.reload
       expect(user.locale).to eq(:zh)
+
+      expect(user.settings['locale']).to eq('zh')
+      expect(user.settings[:locale]).to eq('zh')
     end
 
     it 'should ignore invalid locales, such as :pl' do
       user.locale = :pl
       expect(user.locale).to eq(:en)
+    end
+  end
+
+
+  describe 'Setting a custom user setting' do
+    subject(:user) { FactoryGirl.create(:user) }
+
+    it 'maintains Fixnums after reloading' do
+      user.settings[:some_integer] = 123
+      expect(user.save).to be true
+      user.reload
+
+      expect(user.settings).to have_key(:some_integer)
+      expect(user.settings[:some_integer]).to be_a(Fixnum)
+      expect(user.settings[:some_integer]).to eq(123)
+
+      expect(user).not_to respond_to :some_integer
     end
   end
 
