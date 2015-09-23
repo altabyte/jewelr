@@ -26,3 +26,5 @@ rails new jewelr -T --database=postgresql
 ./bin/rails g devise:views
 
 ./bin/rails g controller dashboard index
+
+./bin/rails generate simple_form:install
