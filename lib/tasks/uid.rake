@@ -53,11 +53,14 @@ namespace :uid do
   desc 'Generate the UIDs'
   task :generate do
     puts 'Generating random UID list...'
-    min      = 1_000_000  # Smallest number
-    max      = 9_999_999  # Largest number
-    path     = UID.configuration.path
-    seed     = UID.configuration.seed
-    per_file = UID.configuration.per_file
+    min            = 1_000_000  # Smallest number
+    max            = 1_020_000 # 9_999_999  # Largest number
+    digits         = UID.configuration.digits
+    path           = UID.configuration.path
+    seed           = UID.configuration.seed || Random.new_seed
+    per_file       = UID.configuration.per_file
+    file_prefix    = UID.configuration.file_prefix
+    file_extension = UID.configuration.file_extension
 
     require 'fileutils'
     FileUtils.mkpath(path)
@@ -90,8 +93,13 @@ namespace :uid do
     # This will ensure each file has exactly UIDS_PER_FILE elements.
     (1..(total_number_of_files)).each do |file_number|
       range = ((per_file * (file_number - 1))...(per_file * file_number))
-      open("#{UID.configuration.file_path(file_number)}", 'w') do |file|
-        range.each { |n| file.puts "#{uids[n].to_s.rjust(UID.configuration.digits, '0')}" if uids[n] }
+
+      # Get the path to the file.
+      # Copied from /lib/uid/sequence.rb #file_path
+      file = "#{path}/#{file_prefix}#{file_number.to_s.rjust(2, '0')}#{file_extension}"
+
+      open(file, 'w') do |f|
+        range.each { |n| f.puts "#{uids[n].to_s.rjust(digits, '0')}" if uids[n] }
       end
     end
   end
