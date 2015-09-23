@@ -63,6 +63,7 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
+  gem 'rspec-collection_matchers'
   # gem 'cucumber-rails', require: false
   # gem 'selenium-webdriver'   # run Cucumber scenarios which use Javascript
 end

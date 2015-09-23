@@ -90,4 +90,14 @@ RSpec.describe User, type: :model do
       expect(user.username).to eq(user.id.to_s)
     end
   end
+
+
+  describe 'Blank email' do
+    subject(:user) { FactoryGirl.build(:user, email: nil) }
+
+    it 'should not be valid' do
+      is_expected.not_to be_valid
+      is_expected.to have(1).errors_on(:email)
+    end
+  end
 end
