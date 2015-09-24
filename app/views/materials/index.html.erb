@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Materials</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name en</th>
+      <th>Name zh</th>
+      <th>Name pinyin</th>
+      <th>Description</th>
+      <th>Notes</th>
+      <th>Selectable</th>
+      <th>Inherit display name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @materials.each do |material| %>
+      <tr>
+        <td><%= material.name_en %></td>
+        <td><%= material.name_zh %></td>
+        <td><%= material.name_pinyin %></td>
+        <td><%= material.description %></td>
+        <td><%= material.notes %></td>
+        <td><%= material.selectable %></td>
+        <td><%= material.inherit_display_name %></td>
+        <td><%= link_to 'Show', material %></td>
+        <td><%= link_to 'Edit', edit_material_path(material) %></td>
+        <td><%= link_to 'Destroy', material, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Material', new_material_path %>

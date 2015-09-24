@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :materials
   devise_for :users, path_names: { sign_in: 'access', sign_out: 'goodbye', sign_up: 'sign-me-up' }
 
   get 'home/index'

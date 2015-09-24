@@ -1,0 +1,17 @@
+<%= simple_form_for(@material) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name_en %>
+    <%= f.input :name_zh %>
+    <%= f.input :name_pinyin %>
+    <%= f.input :description %>
+    <%= f.input :notes %>
+    <%= f.input :selectable %>
+    <%= f.input :inherit_display_name %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
