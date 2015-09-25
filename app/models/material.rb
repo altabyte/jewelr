@@ -3,6 +3,9 @@ require 'serializers/hash_serializer'
 class Material < ActiveRecord::Base
   include UniquelyIdentifiable
 
+  # http://szeliga.me/sorting-active-record-relation-by-postgresql-hstore-value/
+  acts_as_tree # order: 'name_en -> "names"'
+
   serialize :names,   HashSerializer
   serialize :aliases, HashSerializer
 

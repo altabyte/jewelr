@@ -1,6 +1,7 @@
 class MaterialsController < ApplicationController
 
   before_action :set_material, only: [:show, :edit, :update, :destroy]
+  before_action :set_parent, only: [:new, :edit, :update]
   before_action :set_type
 
   # GET /materials
@@ -8,12 +9,16 @@ class MaterialsController < ApplicationController
     case type
       when Material::Gemstone.name
         @materials = Material.gemstones
+        @materials_hash = Material.gemstones.hash_tree
       when Material::ManMade.name
         @materials = Material.man_mades
+        @materials_hash = Material.man_mades.hash_tree
       when Material::Metal.name
         @materials = Material.metals
+        @materials_hash = Material.metals.hash_tree
       else
         @materials = Material.all
+        @materials_hash = Material.hash_tree
     end
   end
 
@@ -23,7 +28,9 @@ class MaterialsController < ApplicationController
 
   # GET /materials/new
   def new
+    redirect_to(materials_path, :notice => 'Undefined parent') and return unless @parent
     @material = type_class.new
+    @material.parent = @parent
   end
 
   # GET /materials/1/edit
@@ -77,6 +84,12 @@ class MaterialsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_material
     @material = type_class.find(params[:id])
+  end
+
+  def set_parent
+    return unless params[:p]
+    @parent = type_class.find(params[:p]) if type_class.exists?(params[:p])
+    @parent_id = @parent.nil? ? nil : @parent.id
   end
 
   def redirect_path_for(material)

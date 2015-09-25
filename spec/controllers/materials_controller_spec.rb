@@ -24,6 +24,13 @@ RSpec.describe MaterialsController, type: :controller do
   before { sign_in user }
   after  { User.delete_all }
 
+  # Setup the root materials.
+  before :all do
+    @gemstone = Material::Gemstone.create(name_en: 'Gemstone', selectable: false)
+    @metal    = Material::Metal.new(name_en: 'Metal', selectable: false)
+    @man_made = Material::ManMade.new(name_en: 'Man Made', selectable: false)
+  end
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MaterialsController. Be sure to keep this updated too.
@@ -59,10 +66,20 @@ RSpec.describe MaterialsController, type: :controller do
   end
 
   describe 'GET #new' do
-    it 'assigns a new material as @material' do
-      get :new, { type: 'gemstone' }, valid_session
-      expect(assigns(:material)).to be_a_new(Material::Gemstone)
+    context 'without parent ID' do
+      it 'redirects to gemstone index' do
+        get :new, { type: 'gemstone' }, valid_session
+        expect(response).to redirect_to(materials_path)
+      end
     end
+
+    context 'with valid parent ID' do
+      it 'assigns a new material as @material' do
+        get :new, { type: 'gemstone', p: @gemstone.id }, valid_session
+        expect(assigns(:material)).to be_a_new(Material::Gemstone)
+      end
+    end
+
   end
 
   describe 'GET #edit' do

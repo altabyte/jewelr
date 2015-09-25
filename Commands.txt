@@ -32,3 +32,5 @@ rails new jewelr -T --database=postgresql
 # Add materials resource
 ./bin/rails g scaffold Material name_en:string name_zh:string name_pinyin:string description:string notes:string selectable:boolean inherit_display_name:boolean
 ./bin/rake db:migrate   # Must run Material migration before adding closure_tree!
+./bin/rails g closure_tree:migration material
+./bin/rake db:migrate

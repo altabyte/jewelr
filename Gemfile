@@ -20,6 +20,9 @@ gem 'devise', '~> 3.5'
 # https://github.com/plataformatec/simple_form
 gem 'simple_form'
 
+# https://github.com/mceachen/closure_tree
+gem 'closure_tree'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

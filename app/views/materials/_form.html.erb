@@ -12,6 +12,10 @@
     <%= f.input :name_en %>
     <%= f.input :name_zh %>
     <%= f.input :name_pinyin %>
+
+    <%= f.input :parent_id, collection: material_parent_select_options(@material), selected: @material.parent_id, disabled: @material.id %>
+
+
     <%= f.input :description %>
     <%= f.input :notes %>
     <%= f.input :selectable %>

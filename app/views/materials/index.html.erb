@@ -7,6 +7,11 @@
   <% unless @type == Material::ManMade.name -%><%= link_to 'Man-mades', man_mades_path %><% end -%>
 </div>
 
+<ol class="material-list">
+  <%= render_material_index_list(@materials_hash, I18n.locale) %>
+</ol>
+
+<!--
 <table>
   <thead>
     <tr>
@@ -38,6 +43,7 @@
     <% end %>
   </tbody>
 </table>
+-->
 
 <br>
 

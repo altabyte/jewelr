@@ -44,6 +44,17 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: material_hierarchies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE material_hierarchies (
+    ancestor_id integer NOT NULL,
+    descendant_id integer NOT NULL,
+    generations integer NOT NULL
+);
+
+
+--
 -- Name: materials; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -214,6 +225,20 @@ CREATE UNIQUE INDEX index_users_on_username ON users USING btree (username);
 
 
 --
+-- Name: material_anc_desc_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX material_anc_desc_idx ON material_hierarchies USING btree (ancestor_id, descendant_id, generations);
+
+
+--
+-- Name: material_desc_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX material_desc_idx ON material_hierarchies USING btree (descendant_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -233,4 +258,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150915011714');
 INSERT INTO schema_migrations (version) VALUES ('20150921194501');
 
 INSERT INTO schema_migrations (version) VALUES ('20150923190028');
+
+INSERT INTO schema_migrations (version) VALUES ('20150925100450');
 
