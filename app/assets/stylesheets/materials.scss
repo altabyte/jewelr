@@ -1,3 +1,155 @@
 // Place all the styles related to the Materials controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#materials {
+
+  max-width: 900px;
+  margin: auto;
+
+  #_material-type-links {
+    display: inline-block;
+
+    a {
+      display: inline-block;
+      margin-left: 28px;
+      padding: 4px 12px;
+      font-size: 1.1em;
+      font-weight: bold;
+      border: 1px solid #C0C0C0;
+      border-radius: 3px;
+      background-color: darken(#FFFFFF, 2);
+
+      &:hover {
+        border: 1px solid darken(#C0C0C0, 10);
+        background-color: darken(#FFFFFF, 10);
+      }
+    }
+  }
+
+  #material-type-links {
+    ul {
+      list-style-type: none;
+    }
+
+    li {
+      display: inline-block;
+      font-size: 1.25em;
+
+      a {
+        display: inline-block;
+        color: #C0C0C0;
+        padding: 8px 24px 6px;
+      }
+
+      &:hover {
+        a {
+          color: darken(#C0C0C0, 30);
+        }
+      }
+
+      &.selected {
+        border-top: 4px solid #C0C0C0;
+        font-weight: bold;
+
+        a {
+          color: darken(#C0C0C0, 20);
+        }
+      }
+    }
+
+    margin: 24px 0;
+    border-bottom: 1px solid silver;
+  }
+
+  #materials-tree {
+    ol {
+      margin: 22px 0 16px 18px;
+      list-style-type: none;
+    }
+
+    li {
+      padding: 4px 0 4px 0;
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+
+    .material-name {
+      display:inline-block;
+      width:300px;
+      padding-left: 12px;
+    }
+
+    .add-new-material {
+      display: inline-block;
+      text-align: center;
+      width: 15px;
+      border: 1px solid #f0f0f0;
+      border-radius: 3px;
+
+      &:hover {
+        border: 1px solid #e0e0e0;
+        background-color: #f0f0f0;
+      }
+    }
+  }
+
+
+  #edit-material {
+    a.back {
+      float: right;
+    }
+
+    form {
+      margin: auto;
+      width: 450px;
+
+      input[type=text], textarea, select {
+        width: 100%;
+      }
+
+      textarea {
+        height: 80px;
+      }
+
+      label.checkbox {
+        display: inline-block;
+        padding-right: 26px;
+      }
+
+      input[type=submit] {
+        margin-left: 125px;
+        padding: 8px;
+        width: 200px;
+      }
+
+      #destroy {
+        text-align: center;
+
+        a {
+          color: #c0c0c0;
+
+          &:hover {
+            color: crimson;
+          }
+        }
+
+        hr {
+          margin: 68px 0 28px 0;
+          border: 0;
+          height: 1px;
+          background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+          background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+          background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+          background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        }
+      }
+    }
+  }
+}

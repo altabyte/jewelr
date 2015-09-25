@@ -20,4 +20,6 @@ $text-color: #696969;
 $text-box-border-color: #DCDCDC;
 
 @import 'global.scss';
+@import 'simple_form';
 @import 'devise';
+@import 'materials';

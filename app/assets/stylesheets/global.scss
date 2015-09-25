@@ -5,7 +5,7 @@
   padding: 0;
 }
 
-body, p, ol, ul, td, input, textarea, button, label {
+body, p, ol, ul, td, input, textarea, button, label, select {
   font-family: 'Lato', Helvetica, Arial, sans-serif;
   font-size: 11pt;
 }
@@ -30,7 +30,7 @@ a {
   }
 }
 
-input[type=text], [type=email], input[type=password], textarea {
+input[type=text], [type=email], input[type=password], textarea, select {
   color: #333;
   font-size: 16px;
   padding: 3px 0 3px 7px;
@@ -38,7 +38,7 @@ input[type=text], [type=email], input[type=password], textarea {
   border: 1px solid #ccc;
 }
 
-input[type=submit] {
+input[type=submit], select {
   border-radius: 3px;
   border: 1px solid #ccc;
 }

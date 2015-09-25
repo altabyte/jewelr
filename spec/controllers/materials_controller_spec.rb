@@ -20,16 +20,13 @@ require 'rails_helper'
 
 RSpec.describe MaterialsController, type: :controller do
 
-  subject(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
   after  { User.delete_all }
 
-  # Setup the root materials.
-  before :all do
-    @gemstone = Material::Gemstone.create(name_en: 'Gemstone', selectable: false)
-    @metal    = Material::Metal.new(name_en: 'Metal', selectable: false)
-    @man_made = Material::ManMade.new(name_en: 'Man Made', selectable: false)
-  end
+  let(:gemstones_root) { FactoryGirl.create(:gemstone, alias_en: 'Gemstone', selectable: false) }
+  let(:metals_root)    { FactoryGirl.create(:metal,    alias_en: 'Metal',    selectable: false) }
+  let(:man_mades_root) { FactoryGirl.create(:man_made, alias_en: 'Man Made', selectable: false) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -75,7 +72,7 @@ RSpec.describe MaterialsController, type: :controller do
 
     context 'with valid parent ID' do
       it 'assigns a new material as @material' do
-        get :new, { type: 'gemstone', p: @gemstone.id }, valid_session
+        get :new, { type: 'gemstone', p: gemstones_root.id }, valid_session
         expect(assigns(:material)).to be_a_new(Material::Gemstone)
       end
     end

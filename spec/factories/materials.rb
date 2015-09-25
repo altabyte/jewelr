@@ -31,4 +31,14 @@ FactoryGirl.define do
     sequence(:alias_en)         { |n| ["Magic Metal #{n}", "Pretty Metal #{n}"] }
     plating                     'Sterling Silver'
   end
+
+  factory :man_made, parent: :material, class: Material::ManMade do
+    type                        Material::ManMade.name
+    sequence(:name_en)          { |n| "Man made #{n}" }
+    sequence(:name_zh)          { |n| "宝石#{n}" }
+    sequence(:name_pinyin)      { |n| "manmadename#{n}" }
+    inherit_display_name        false
+    selectable                  true
+    sequence(:alias_en)         { |n| ["Glass #{n}", "Plastic #{n}"] }
+  end
 end

@@ -1,28 +1,42 @@
+<div id="edit-material">
+  <%= link_to '&#8672; Back to materials'.html_safe, materials_path, class: 'back' %>
 <%#
     When you're using STI (single-table inheritance) with your models,
     you can't rely on record identification on a subclass if only their
     parent class is declared a resource. You will have to specify the
     model name, :url, and :method explicitly.
 %>
-<%= simple_form_for(@material, url: material_simple_form_url(@material), method: @material.new_record? ? :post : :patch) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_form_for(@material, url: material_simple_form_url(@material), method: @material.new_record? ? :post : :patch) do |f| %>
+      <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :type, as: :hidden %>
-    <%= f.input :name_en %>
-    <%= f.input :name_zh %>
-    <%= f.input :name_pinyin %>
+      <div class="form-inputs">
+        <%= f.input :type, as: :hidden %>
+        <%= f.input :name_en, label: 'Name', placeholder: 'English', required: true %>
+        <%= f.input :name_zh, label: 'Chinese Name', placeholder: 'Chinese' %>
+        <%= f.input :name_pinyin, label: 'Chinese Pinyin', placeholder: 'Pinyin' %>
 
-    <%= f.input :parent_id, collection: material_parent_select_options(@material), selected: @material.parent_id, disabled: @material.id %>
+        <div style="margin-left: 40px; text-align: center;">
+          <%= f.input_field :selectable, inline_label: 'Selectable in descriptions?' %>
+          <%= f.input_field :inherit_display_name, inline_label: 'Inherit name' %>
+        </div>
 
+        <%= f.input :parent_id, collection: material_parent_select_options(@material), selected: @material.parent_id, disabled: @material.id %>
 
-    <%= f.input :description %>
-    <%= f.input :notes %>
-    <%= f.input :selectable %>
-    <%= f.input :inherit_display_name %>
-  </div>
+        <%= f.input :notes, as: :text, placeholder: 'Private notes about this material' %>
+        <%= f.input :description, as: :text, placeholder: 'Public description in Markdown' %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit %>
+      </div>
+
+      <% unless @material.new_record? || @material.root? %>
+          <div id="destroy">
+            <hr>
+            <%= link_to 'Delete Material', sti_material_path(@material, @material.type, :delete), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+      <% end %>
+
+  <% end %>
+</div>
