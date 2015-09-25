@@ -2,7 +2,7 @@ class CreateMaterials < ActiveRecord::Migration
   def change
     create_table :materials do |t|
 
-      # t.string  :type, null: false
+      t.string  :type, null: false
       t.integer :parent_id
 
       # Determine if this material can be directly used in a product description.

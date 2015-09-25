@@ -12,8 +12,40 @@ class Material < ActiveRecord::Base
   before_validation :correct_names
   before_validation :correct_aliases
 
+  validates :type, presence: true
+
   # TODO: cannot currently set `uniqueness: true`
   validates :name_en, presence: true
+
+  class << self
+    def types
+      [ Material::Gemstone, Material::Metal, Material::ManMade ]
+    end
+
+    def type_names
+      types.map { |type| type.name }
+    end
+  end
+
+  scope :metals,    -> { where(type: Material::Metal.name) }
+  scope :gemstones, -> { where(type: Material::Gemstone.name) }
+  scope :man_mades, -> { where(type: Material::ManMade.name) }
+
+  def type_class
+    self.type.constantize
+  end
+
+  def gemstone?
+    type_class == Material::Gemstone
+  end
+
+  def metal?
+    type_class == Material::Metal
+  end
+
+  def man_made?
+    type_class == Material::ManMade
+  end
 
   # Get the material name for the specified locale and fall back to :en if locale is not found.
   # @param [Symbol] locale the international locale code.
@@ -37,6 +69,8 @@ class Material < ActiveRecord::Base
     string.strip! if string.is_a?(String)
     self[:description] = string
   end
+
+
 
   #---------------------------------------------------------------------------
   private

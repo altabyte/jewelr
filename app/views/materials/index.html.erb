@@ -1,6 +1,11 @@
-<p id="notice"><%= notice %></p>
+<h1>Materials</h1>
 
-<h1>Listing Materials</h1>
+<h2><%= @type.to_s.pluralize %></h2>
+<div id="material-type-links">
+  <% unless @type == Material::Gemstone.name -%><%= link_to 'Gemstone', gemstones_path %><% end -%>
+  <% unless @type == Material::Metal.name -%><%= link_to 'Metals', metals_path %><% end -%>
+  <% unless @type == Material::ManMade.name -%><%= link_to 'Man-mades', man_mades_path %><% end -%>
+</div>
 
 <table>
   <thead>
@@ -26,9 +31,9 @@
         <td><%= material.notes %></td>
         <td><%= material.selectable %></td>
         <td><%= material.inherit_display_name %></td>
-        <td><%= link_to 'Show', material %></td>
-        <td><%= link_to 'Edit', edit_material_path(material) %></td>
-        <td><%= link_to 'Destroy', material, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', sti_material_path(material, material.type, :show) %></td>
+        <td><%= link_to 'Edit', sti_material_path(material, material.type, :edit) %></td>
+        <td><%= link_to 'Destroy', sti_material_path(material, material.type, :delete), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -36,4 +41,6 @@
 
 <br>
 
-<%= link_to 'New Material', new_material_path %>
+<%= link_to 'New gemstone', new_gemstone_path %><br>
+<%= link_to 'New metal', new_metal_path %><br>
+<%= link_to 'New man-made', new_man_made_path %>

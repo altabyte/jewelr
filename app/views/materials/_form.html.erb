@@ -1,7 +1,14 @@
-<%= simple_form_for(@material) do |f| %>
+<%#
+    When you're using STI (single-table inheritance) with your models,
+    you can't rely on record identification on a subclass if only their
+    parent class is declared a resource. You will have to specify the
+    model name, :url, and :method explicitly.
+%>
+<%= simple_form_for(@material, url: material_simple_form_url(@material), method: @material.new_record? ? :post : :patch) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :type, as: :hidden %>
     <%= f.input :name_en %>
     <%= f.input :name_zh %>
     <%= f.input :name_pinyin %>

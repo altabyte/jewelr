@@ -49,6 +49,7 @@ SET default_with_oids = false;
 
 CREATE TABLE materials (
     id integer NOT NULL,
+    type character varying NOT NULL,
     parent_id integer,
     selectable boolean DEFAULT true NOT NULL,
     names jsonb DEFAULT '{}'::jsonb NOT NULL,

@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :materials
   devise_for :users, path_names: { sign_in: 'access', sign_out: 'goodbye', sign_up: 'sign-me-up' }
 
   get 'home/index'
   get 'dashboard' => 'dashboard#index'
+
+  resources :materials
+  resources :gemstones,  controller: 'materials', type: 'gemstone', path: '/gemstones'
+  resources :metals,     controller: 'materials', type: 'metal',    path: '/metals'
+  resources :man_mades,  controller: 'materials', type: 'man-made', path: '/man-mades'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
