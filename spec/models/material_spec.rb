@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Material, type: :model do
 
+  it { is_expected.to be_a_closure_tree }
+
   describe 'Primary key ID' do
     subject(:material) { FactoryGirl.build(:gemstone) }
 
@@ -22,8 +24,8 @@ RSpec.describe Material, type: :model do
     end
   end
 
-  describe 'Names' do
 
+  describe 'Names' do
     let(:name_en) { 'material name' }
     let(:name_zh) { '宝石' }
 

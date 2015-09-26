@@ -24,9 +24,9 @@ RSpec.describe MaterialsController, type: :controller do
   before { sign_in user }
   after  { User.delete_all }
 
-  let(:gemstones_root) { FactoryGirl.create(:gemstone, alias_en: 'Gemstone', selectable: false) }
-  let(:metals_root)    { FactoryGirl.create(:metal,    alias_en: 'Metal',    selectable: false) }
-  let(:man_mades_root) { FactoryGirl.create(:man_made, alias_en: 'Man Made', selectable: false) }
+  let!(:gemstones_root) { FactoryGirl.create(:gemstone, name_en: 'Gemstone', selectable: false) }
+  let!(:metals_root)    { FactoryGirl.create(:metal,    name_en: 'Metal',    selectable: false) }
+  let!(:man_mades_root) { FactoryGirl.create(:man_made, name_en: 'Man Made', selectable: false) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -37,143 +37,178 @@ RSpec.describe MaterialsController, type: :controller do
   # Material. As you add validations to Material, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip('Add a hash of attributes valid for your model')
+    FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id)
   }
 
   let(:invalid_attributes) {
-    skip('Add a hash of attributes invalid for your model')
+    FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id, name_en: nil)
   }
 
 
-
   describe 'GET #index' do
-    it 'assigns all materials as @materials' do
-      material = Material.create! valid_attributes
+    let!(:materials_hash) {
+      gemstones_root.add_child(FactoryGirl.create(:gemstone))
+      gemstones_root.add_child(FactoryGirl.create(:gemstone))
+      Material.hash_tree
+    }
+
+    it 'assigns the @materials_hash' do
       get :index, {}, valid_session
-      expect(assigns(:materials)).to eq([material])
+      expect(assigns(:materials_hash)).to eq(materials_hash)
+    end
+
+    it 'renders the index template' do
+      get :index
+      expect(response).to render_template('index')
     end
   end
 
+
   describe 'GET #show' do
+    let!(:material) { FactoryGirl.create(:gemstone) }
+
     it 'assigns the requested material as @material' do
-      material = Material.create! valid_attributes
-      get :show, {:id => material.to_param}, valid_session
+      get :show, { id: material.to_param, type: 'gemstone' }, valid_session
       expect(assigns(:material)).to eq(material)
     end
   end
 
+
+  # A new material cannot be created unless a parent ID is given ?p=123
   describe 'GET #new' do
-    context 'without parent ID' do
-      it 'redirects to gemstone index' do
+    describe 'without parent ID' do
+      it 'redirects to the materials list' do
         get :new, { type: 'gemstone' }, valid_session
-        expect(response).to redirect_to(materials_path)
+        expect(response).to redirect_to(materials_url)
       end
     end
 
-    context 'with valid parent ID' do
+    describe 'with invalid parent ID' do
       it 'assigns a new material as @material' do
-        get :new, { type: 'gemstone', p: gemstones_root.id }, valid_session
+        get :new, { type: 'gemstone', p: '123456' }, valid_session
+        expect(response).to redirect_to(materials_url)
+      end
+    end
+
+    describe 'with valid parent ID' do
+      let!(:parent) { gemstones_root }
+      it 'assigns a new material as @material' do
+        get :new, { type: 'gemstone', p: parent.id }, valid_session
         expect(assigns(:material)).to be_a_new(Material::Gemstone)
       end
     end
-
   end
 
+
   describe 'GET #edit' do
+    let!(:material) { FactoryGirl.create(:gemstone) }
     it 'assigns the requested material as @material' do
-      material = Material.create! valid_attributes
-      get :edit, {:id => material.to_param}, valid_session
+      get :edit, { id: material.to_param, type: Material::Gemstone }, valid_session
       expect(assigns(:material)).to eq(material)
     end
   end
 
+
   describe 'POST #create' do
-    context 'with valid params' do
-      it 'creates a new Material' do
-        expect {
-          post :create, {:material => valid_attributes}, valid_session
-        }.to change(Material, :count).by(1)
+    describe 'Create Gemstone' do
+      let(:type) { 'gemstone' }
+      let(:attribute_hash_name) { 'material_gemstone' }
+
+      describe 'with valid params' do
+        it 'creates a new Gemstone' do
+          expect {
+            post :create, { type: type, attribute_hash_name => FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id) }, valid_session
+          }.to change(Material::Gemstone, :count).by(1)
+        end
+
+        it 'assigns a newly created material as @material' do
+          post :create, { type: type, attribute_hash_name => FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id) }, valid_session
+          expect(assigns(:material)).to be_a(Material::Gemstone)
+          expect(assigns(:material)).to be_persisted
+        end
+
+        it 'redirects to the created material' do
+          post :create, { type: type, attribute_hash_name => FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id) }, valid_session
+          expect(response).to redirect_to(gemstones_path)
+        end
       end
 
-      it 'assigns a newly created material as @material' do
-        post :create, {:material => valid_attributes}, valid_session
-        expect(assigns(:material)).to be_a(Material)
-        expect(assigns(:material)).to be_persisted
-      end
+      describe 'with invalid params' do
+        let!(:invalid_attributes) { FactoryGirl.attributes_for(:gemstone, name_en: nil) }
+        it 'assigns a newly created but unsaved material as @material' do
+          post :create, { type: type, attribute_hash_name => invalid_attributes }, valid_session
+          expect(assigns(:material)).to be_a_new(Material::Gemstone)
+        end
 
-      it 'redirects to the created material' do
-        post :create, {:material => valid_attributes}, valid_session
-        expect(response).to redirect_to(Material.last)
-      end
-    end
-
-    context 'with invalid params' do
-      it 'assigns a newly created but unsaved material as @material' do
-        post :create, {:material => invalid_attributes}, valid_session
-        expect(assigns(:material)).to be_a_new(Material)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:material => invalid_attributes}, valid_session
-        expect(response).to render_template('new')
+        it 're-renders the new template' do
+          post :create, { type: type, attribute_hash_name => invalid_attributes }, valid_session
+          expect(response).to render_template('new')
+        end
       end
     end
   end
+
 
   describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) {
-        skip('Add a hash of attributes valid for your model')
-      }
+    describe 'Update Gemstone' do
 
-      it 'updates the requested material' do
-        material = Material.create! valid_attributes
-        put :update, {:id => material.to_param, :material => new_attributes}, valid_session
-        material.reload
-        skip('Add assertions for updated state')
+      let!(:material)           { FactoryGirl.create(:gemstone, parent_id: gemstones_root.id) }
+      let(:type)                { 'gemstone' }
+      let(:attribute_hash_name) { 'material_gemstone' }
+
+      describe 'with valid params' do
+
+        let(:new_name) { material.name_en << ' UPDATED' }
+        let(:update_attributes) { material.attributes.clone.merge(name_en: new_name) }
+
+        it 'updates the requested material' do
+          put :update, { id: material.to_param, type: type, attribute_hash_name => update_attributes }, valid_session
+          material.reload
+          expect(material.name_en).to eq(new_name)
+        end
+
+        it 'assigns the requested material as @material' do
+          put :update, { id: material.to_param, type: type, attribute_hash_name => update_attributes }, valid_session
+          expect(assigns(:material)).to eq(material)
+        end
+
+        it 'redirects to the material index' do
+          put :update, { id: material.to_param, type: type, attribute_hash_name => update_attributes }, valid_session
+          expect(response).to redirect_to(gemstones_path)
+        end
       end
 
-      it 'assigns the requested material as @material' do
-        material = Material.create! valid_attributes
-        put :update, {:id => material.to_param, :material => valid_attributes}, valid_session
-        expect(assigns(:material)).to eq(material)
-      end
+      describe 'with invalid params' do
 
-      it 'redirects to the material' do
-        material = Material.create! valid_attributes
-        put :update, {:id => material.to_param, :material => valid_attributes}, valid_session
-        expect(response).to redirect_to(material)
-      end
-    end
+        let!(:invalid_attributes) { material.attributes.clone.merge(name_en: nil) }
 
-    context 'with invalid params' do
-      it 'assigns the material as @material' do
-        material = Material.create! valid_attributes
-        put :update, {:id => material.to_param, :material => invalid_attributes}, valid_session
-        expect(assigns(:material)).to eq(material)
-      end
+        it 'assigns the material as @material' do
+          put :update, { id: material.to_param, type: type, attribute_hash_name => invalid_attributes }, valid_session
+          expect(assigns(:material)).to eq(material)
+        end
 
-      it "re-renders the 'edit' template" do
-        material = Material.create! valid_attributes
-        put :update, {:id => material.to_param, :material => invalid_attributes}, valid_session
-        expect(response).to render_template('edit')
+        it 're-renders the edit template' do
+          put :update, { id: material.to_param, type: type, attribute_hash_name => invalid_attributes }, valid_session
+          expect(response).to render_template('edit')
+        end
       end
     end
   end
 
+
   describe 'DELETE #destroy' do
+    let!(:material) { FactoryGirl.create(:gemstone, parent_id: gemstones_root.id) }
+    let(:type) { 'gemstone' }
+
     it 'destroys the requested material' do
-      material = Material.create! valid_attributes
       expect {
-        delete :destroy, {:id => material.to_param}, valid_session
+        delete :destroy, { id: material.to_param, type: type }, valid_session
       }.to change(Material, :count).by(-1)
     end
 
     it 'redirects to the materials list' do
-      material = Material.create! valid_attributes
-      delete :destroy, {:id => material.to_param}, valid_session
+      delete :destroy, { id: material.to_param, type: type }, valid_session
       expect(response).to redirect_to(materials_url)
     end
   end
-
 end
