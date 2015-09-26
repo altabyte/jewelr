@@ -1,6 +1,8 @@
 require 'rails_helper'
+require_relative 'concerns/locale_nameable_spec'
 
 RSpec.describe Material, type: :model do
+  it_should_behave_like 'Locale Nameable'
 
   it { is_expected.to be_a_closure_tree }
 
@@ -26,81 +28,7 @@ RSpec.describe Material, type: :model do
 
 
   describe 'Names' do
-    let(:name_en) { 'material name' }
-    let(:name_zh) { '宝石' }
-
-    describe 'name_en' do
-      context 'when valid' do
-
-        subject(:material) { FactoryGirl.create(:gemstone, name_en: name_en) }
-        it { is_expected.to have(0).errors_on(:name_en) }
-
-        it 'is accessible via store_accessor alias and Hash keys' do
-          expect(material.name_en).to eq(name_en)
-          expect(material.names['name_en']).to eq(name_en)
-          expect(material.names[:name_en]).to eq(name_en)
-          puts material.name_en
-        end
-      end
-
-      context 'when nil' do
-        subject(:material) { FactoryGirl.build(:gemstone, name_en: nil) }
-        it { is_expected.not_to be_valid }
-        it { is_expected.to have(1).errors_on(:name_en) }
-      end
-    end
-
-
-    describe 'name_zh' do
-      context 'when empty string' do
-        subject(:material) { FactoryGirl.create(:gemstone, name_en: name_en, name_zh: '  ') }
-
-        it { is_expected.to be_valid }
-        it { expect(material.name_zh).to be_nil }
-      end
-
-      context 'when nil' do
-        subject(:material) { FactoryGirl.create(:gemstone, name_en: name_en, name_zh: nil) }
-
-        it { is_expected.to be_valid }
-        it { expect(material.name_zh).to be_nil }
-      end
-    end
-
-
-    describe 'name' do
-      subject(:material) { FactoryGirl.build(:gemstone, name_en: name_en, name_zh: name_zh) }
-
-      it 'should return the :en name by default' do
-        expect(material.name).to eq(name_en)
-      end
-
-      it 'should return the :en name' do
-        expect(material.name(:en)).to eq(name_en)
-      end
-
-      it 'should return the :zh name' do
-        expect(material.name(:zh)).to eq(name_zh)
-      end
-
-      it 'falls back to :en if locale not found' do
-        expect(material.name(:zz)).to eq(name_en)
-      end
-    end
-
-
-    context 'when excess white space in names' do
-      subject(:material) { FactoryGirl.create(:gemstone, name_en: '  material   1   name  ', name_zh: '  宝  石  ', name_pinyin: '  gemstonename  ') }
-
-      it { expect(material.name_en).to eq('material 1 name') }
-      it { expect(material.name_zh).to eq('宝 石') }
-      it { expect(material.name_pinyin).to eq('gemstonename') }
-    end
-
-
-    describe 'uniqueness' do
-      pending 'TODO: `validates :name_en, uniqueness: true` does not work!!'
-    end
+    # @see 'concerns/locale_nameable_spec'
   end
 
 
