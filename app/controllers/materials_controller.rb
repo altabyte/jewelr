@@ -1,5 +1,6 @@
 class MaterialsController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :set_material, only: [:show, :edit, :update, :destroy]
   before_action :set_parent, only: [:new, :edit, :update]
   before_action :set_type

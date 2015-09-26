@@ -1,39 +1,44 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe MaterialsController, type: :routing do
-  describe "routing" do
+  describe 'routing' do
 
-    it "routes to #index" do
-      expect(:get => "/materials").to route_to("materials#index")
+    describe '#index' do
+      it 'routes to #index' do
+        expect(get: '/materials').to route_to('materials#index')
+        expect(get: '/gemstones').to route_to('materials#index', type: 'gemstone')
+        expect(get: '/man-mades').to route_to('materials#index', type: 'man-made')
+        expect(get: '/metals').to    route_to('materials#index', type: 'metal')
+      end
     end
 
-    it "routes to #new" do
-      expect(:get => "/materials/new").to route_to("materials#new")
-    end
+    describe 'STI CRUD routes' do
+      %w'gemstone metal man-made'.each do |type|
 
-    it "routes to #show" do
-      expect(:get => "/materials/1").to route_to("materials#show", :id => "1")
-    end
+        it 'routes to #new' do
+          expect(get: "/#{type.pluralize}/new").to route_to('materials#new', type: type)
+        end
 
-    it "routes to #edit" do
-      expect(:get => "/materials/1/edit").to route_to("materials#edit", :id => "1")
-    end
+        it 'routes to #show' do
+          expect(get: "/#{type.pluralize}/1").to route_to('materials#show', type: type, id: '1')
+        end
 
-    it "routes to #create" do
-      expect(:post => "/materials").to route_to("materials#create")
-    end
+        it 'routes to #edit' do
+          expect(get: "/#{type.pluralize}/1/edit").to route_to('materials#edit', type: type, id: '1')
+        end
 
-    it "routes to #update via PUT" do
-      expect(:put => "/materials/1").to route_to("materials#update", :id => "1")
-    end
+        it 'routes to #create' do
+          expect(post: "/#{type.pluralize}").to route_to('materials#create', type: type)
+        end
 
-    it "routes to #update via PATCH" do
-      expect(:patch => "/materials/1").to route_to("materials#update", :id => "1")
-    end
+        it 'routes to #update' do
+          expect(put: "/#{type.pluralize}/1").to route_to('materials#update', type: type, id: '1')
+        end
 
-    it "routes to #destroy" do
-      expect(:delete => "/materials/1").to route_to("materials#destroy", :id => "1")
+        it 'routes to #destroy' do
+          expect(delete: "/#{type.pluralize}/1").to route_to('materials#destroy', type: type, id: '1')
+        end
+      end
     end
-
   end
 end

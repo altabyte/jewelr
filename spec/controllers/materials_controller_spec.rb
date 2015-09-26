@@ -20,10 +20,7 @@ require 'rails_helper'
 
 RSpec.describe MaterialsController, type: :controller do
 
-  let(:user) { FactoryGirl.create(:user) }
-  before { sign_in user }
-  after  { User.delete_all }
-
+  let(:user)            { FactoryGirl.create(:user) }
   let!(:gemstones_root) { FactoryGirl.create(:gemstone, name_en: 'Gemstone', selectable: false) }
   let!(:metals_root)    { FactoryGirl.create(:metal,    name_en: 'Metal',    selectable: false) }
   let!(:man_mades_root) { FactoryGirl.create(:man_made, name_en: 'Man Made', selectable: false) }
@@ -46,73 +43,133 @@ RSpec.describe MaterialsController, type: :controller do
 
 
   describe 'GET #index' do
-    let!(:materials_hash) {
-      gemstones_root.add_child(FactoryGirl.create(:gemstone))
-      gemstones_root.add_child(FactoryGirl.create(:gemstone))
-      Material.hash_tree
-    }
 
-    it 'assigns the @materials_hash' do
-      get :index, {}, valid_session
-      expect(assigns(:materials_hash)).to eq(materials_hash)
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        get :index
+        expect(response).to redirect_to new_user_session_path
+      end
     end
 
-    it 'renders the index template' do
-      get :index
-      expect(response).to render_template('index')
+    context 'Signed in' do
+      before { sign_in user }
+
+      let!(:materials_hash) {
+        gemstones_root.add_child(FactoryGirl.create(:gemstone))
+        gemstones_root.add_child(FactoryGirl.create(:gemstone))
+        Material.hash_tree
+      }
+
+      it 'assigns the @materials_hash' do
+        get :index, {}, valid_session
+        expect(assigns(:materials_hash)).to eq(materials_hash)
+      end
+
+      it 'renders the index template' do
+        get :index
+        expect(response).to render_template('index')
+      end
     end
+
   end
 
 
   describe 'GET #show' do
+
     let!(:material) { FactoryGirl.create(:gemstone) }
 
-    it 'assigns the requested material as @material' do
-      get :show, { id: material.to_param, type: 'gemstone' }, valid_session
-      expect(assigns(:material)).to eq(material)
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        get :show, { id: material.to_param, type: 'gemstone' }, valid_session
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'Signed in' do
+      before { sign_in user }
+
+      it 'assigns the requested material as @material' do
+        get :show, { id: material.to_param, type: 'gemstone' }, valid_session
+        expect(assigns(:material)).to eq(material)
+      end
     end
   end
 
 
   # A new material cannot be created unless a parent ID is given ?p=123
   describe 'GET #new' do
-    describe 'without parent ID' do
-      it 'redirects to the materials list' do
-        get :new, { type: 'gemstone' }, valid_session
-        expect(response).to redirect_to(materials_url)
+
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        get :new, { type: 'gemstone', p: gemstones_root.id }, valid_session
+        expect(response).to redirect_to new_user_session_path
       end
     end
 
-    describe 'with invalid parent ID' do
-      it 'assigns a new material as @material' do
-        get :new, { type: 'gemstone', p: '123456' }, valid_session
-        expect(response).to redirect_to(materials_url)
-      end
-    end
+    context 'Signed in' do
+      before { sign_in user }
 
-    describe 'with valid parent ID' do
-      let!(:parent) { gemstones_root }
-      it 'assigns a new material as @material' do
-        get :new, { type: 'gemstone', p: parent.id }, valid_session
-        expect(assigns(:material)).to be_a_new(Material::Gemstone)
+      describe 'without parent ID' do
+        it 'redirects to the materials list' do
+          get :new, { type: 'gemstone' }, valid_session
+          expect(response).to redirect_to(materials_url)
+        end
+      end
+
+      describe 'with invalid parent ID' do
+        it 'assigns a new material as @material' do
+          get :new, { type: 'gemstone', p: '123456' }, valid_session
+          expect(response).to redirect_to(materials_url)
+        end
+      end
+
+      describe 'with valid parent ID' do
+        it 'assigns a new material as @material' do
+          get :new, { type: 'gemstone', p: gemstones_root.id }, valid_session
+          expect(assigns(:material)).to be_a_new(Material::Gemstone)
+        end
       end
     end
   end
 
 
   describe 'GET #edit' do
+
     let!(:material) { FactoryGirl.create(:gemstone) }
-    it 'assigns the requested material as @material' do
-      get :edit, { id: material.to_param, type: Material::Gemstone }, valid_session
-      expect(assigns(:material)).to eq(material)
+
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        get :edit, { id: material.to_param, type: Material::Gemstone }, valid_session
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'Signed in' do
+      before { sign_in user }
+
+      it 'assigns the requested material as @material' do
+        get :edit, { id: material.to_param, type: Material::Gemstone }, valid_session
+        expect(assigns(:material)).to eq(material)
+      end
     end
   end
 
 
   describe 'POST #create' do
-    describe 'Create Gemstone' do
-      let(:type) { 'gemstone' }
-      let(:attribute_hash_name) { 'material_gemstone' }
+
+    let(:type) { 'gemstone' }
+    let(:attribute_hash_name) { 'material_gemstone' }
+
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        expect {
+          post :create, { type: type, attribute_hash_name => FactoryGirl.attributes_for(:gemstone, parent_id: gemstones_root.id) }, valid_session
+        }.not_to change(Material::Gemstone, :count)
+      end
+    end
+
+    context 'Signed in' do
+      before { sign_in user }
 
       describe 'with valid params' do
         it 'creates a new Gemstone' do
@@ -150,16 +207,24 @@ RSpec.describe MaterialsController, type: :controller do
 
 
   describe 'PUT #update' do
-    describe 'Update Gemstone' do
+    let!(:material)           { FactoryGirl.create(:gemstone, parent_id: gemstones_root.id) }
+    let(:type)                { 'gemstone' }
+    let(:attribute_hash_name) { 'material_gemstone' }
+    let(:new_name) { material.name_en << ' UPDATED' }
+    let(:update_attributes) { material.attributes.clone.merge(name_en: new_name) }
 
-      let!(:material)           { FactoryGirl.create(:gemstone, parent_id: gemstones_root.id) }
-      let(:type)                { 'gemstone' }
-      let(:attribute_hash_name) { 'material_gemstone' }
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        put :update, { id: material.to_param, type: type, attribute_hash_name => update_attributes }, valid_session
+        material.reload
+        expect(material.name_en).not_to eq(new_name)
+      end
+    end
+
+    context 'Signed in' do
+      before { sign_in user }
 
       describe 'with valid params' do
-
-        let(:new_name) { material.name_en << ' UPDATED' }
-        let(:update_attributes) { material.attributes.clone.merge(name_en: new_name) }
 
         it 'updates the requested material' do
           put :update, { id: material.to_param, type: type, attribute_hash_name => update_attributes }, valid_session
@@ -200,15 +265,26 @@ RSpec.describe MaterialsController, type: :controller do
     let!(:material) { FactoryGirl.create(:gemstone, parent_id: gemstones_root.id) }
     let(:type) { 'gemstone' }
 
-    it 'destroys the requested material' do
-      expect {
-        delete :destroy, { id: material.to_param, type: type }, valid_session
-      }.to change(Material, :count).by(-1)
+    context 'Not signed in' do
+      it 'redirects to the login page' do
+        expect {
+          delete :destroy, { id: material.to_param, type: type }, valid_session
+        }.not_to change(Material, :count)
+      end
     end
 
-    it 'redirects to the materials list' do
-      delete :destroy, { id: material.to_param, type: type }, valid_session
-      expect(response).to redirect_to(materials_url)
+    context 'Signed in' do
+      before { sign_in user }
+      it 'destroys the requested material' do
+        expect {
+          delete :destroy, { id: material.to_param, type: type }, valid_session
+        }.to change(Material, :count).by(-1)
+      end
+
+      it 'redirects to the materials list' do
+        delete :destroy, { id: material.to_param, type: type }, valid_session
+        expect(response).to redirect_to(materials_url)
+      end
     end
   end
 end
