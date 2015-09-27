@@ -13,6 +13,7 @@ gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'        # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'        # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.1.0'    # Use CoffeeScript for .coffee assets and views
+gem 'color'
 
 # https://github.com/plataformatec/devise
 gem 'devise', '~> 3.5'
@@ -22,6 +23,9 @@ gem 'simple_form'
 
 # https://github.com/mceachen/closure_tree
 gem 'closure_tree'
+
+# https://github.com/RubyMoney/money-rails
+gem 'money-rails'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
