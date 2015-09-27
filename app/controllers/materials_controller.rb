@@ -72,9 +72,7 @@ class MaterialsController < ApplicationController
   end
 
   def type
-    type = params[:type]
-    return nil unless type
-    type = "#{Material.name}::#{type.gsub('-', '_').camelize}"
+    type = params.key?(:type) ? "#{Material.name}::#{params[:type].gsub('-', '_').camelize}" : 'Material'
     Material.type_names.include?(type) ? type : Material.name
   end
 
@@ -84,7 +82,11 @@ class MaterialsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_material
-    @material = type_class.find(params[:id])
+    begin
+      @material = type_class.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to materials_path, alert: "Could not find #{type_class.name.split(':').last} with ID #{params[:id]}!"
+    end
   end
 
   def set_parent

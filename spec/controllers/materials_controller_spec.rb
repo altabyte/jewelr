@@ -151,6 +151,11 @@ RSpec.describe MaterialsController, type: :controller do
         get :edit, { id: material.to_param, type: Material::Gemstone }, valid_session
         expect(assigns(:material)).to eq(material)
       end
+
+      it 'redirects to #index if material ID not valid' do
+        get :edit, { id: 987654321, type: Material::Gemstone }, valid_session
+        expect(response).to redirect_to materials_path
+      end
     end
   end
 
