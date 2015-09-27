@@ -34,3 +34,5 @@ rails new jewelr -T --database=postgresql
 ./bin/rake db:migrate   # Must run Material migration before adding closure_tree!
 ./bin/rails g closure_tree:migration material
 ./bin/rake db:migrate
+
+./bin/rails g money_rails:initializer
