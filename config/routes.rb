@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'dashboard' => 'dashboard#index'
 
+  resources :descriptions
+
   resources :materials
   resources :gemstones,  controller: 'materials', type: 'gemstone', path: '/gemstones'
   resources :metals,     controller: 'materials', type: 'metal',    path: '/metals'

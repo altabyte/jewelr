@@ -44,6 +44,50 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: descriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE descriptions (
+    id integer NOT NULL,
+    type character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    "unique" boolean DEFAULT false NOT NULL,
+    archived timestamp without time zone,
+    acc_price_cents integer,
+    acc_price_currency character varying,
+    target_price_cents integer,
+    target_price_currency character varying,
+    properties jsonb DEFAULT '{}'::jsonb NOT NULL,
+    royal_mail_large_letter boolean DEFAULT false NOT NULL,
+    packaged_size_x integer,
+    packaged_size_y integer,
+    packaged_size_z integer,
+    weight_net integer,
+    weight_gross integer
+);
+
+
+--
+-- Name: descriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE descriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: descriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE descriptions_id_seq OWNED BY descriptions.id;
+
+
+--
 -- Name: material_hierarchies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -163,6 +207,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY descriptions ALTER COLUMN id SET DEFAULT nextval('descriptions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY materials ALTER COLUMN id SET DEFAULT nextval('materials_id_seq'::regclass);
 
 
@@ -171,6 +222,14 @@ ALTER TABLE ONLY materials ALTER COLUMN id SET DEFAULT nextval('materials_id_seq
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY descriptions
+    ADD CONSTRAINT descriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -260,4 +319,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150921194501');
 INSERT INTO schema_migrations (version) VALUES ('20150923190028');
 
 INSERT INTO schema_migrations (version) VALUES ('20150925100450');
+
+INSERT INTO schema_migrations (version) VALUES ('20150928105423');
 

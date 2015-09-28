@@ -1,0 +1,16 @@
+<%= simple_form_for(@description) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :acc_price %>
+    <%= f.input :target_price %>
+    <%= f.input :unique %>
+    <%= f.input :weight_net %>
+    <%= f.input :weight_gross %>
+    <%= f.input :archived %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

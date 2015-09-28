@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Acc price:</strong>
+  <%= @description.acc_price %>
+</p>
+
+<p>
+  <strong>Target price:</strong>
+  <%= @description.target_price %>
+</p>
+
+<p>
+  <strong>Unique:</strong>
+  <%= @description.unique %>
+</p>
+
+<p>
+  <strong>Weight net:</strong>
+  <%= @description.weight_net %>
+</p>
+
+<p>
+  <strong>Weight gross:</strong>
+  <%= @description.weight_gross %>
+</p>
+
+<p>
+  <strong>Archived:</strong>
+  <%= @description.archived %>
+</p>
+
+<%= link_to 'Edit', edit_description_path(@description) %> |
+<%= link_to 'Back', descriptions_path %>

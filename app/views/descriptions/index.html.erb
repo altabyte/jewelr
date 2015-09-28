@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Descriptions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Acc price</th>
+      <th>Target price</th>
+      <th>Unique</th>
+      <th>Weight net</th>
+      <th>Weight gross</th>
+      <th>Archived</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @descriptions.each do |description| %>
+      <tr>
+        <td><%= description.acc_price %></td>
+        <td><%= description.target_price %></td>
+        <td><%= description.unique %></td>
+        <td><%= description.weight_net %></td>
+        <td><%= description.weight_gross %></td>
+        <td><%= description.archived %></td>
+        <td><%= link_to 'Show', description %></td>
+        <td><%= link_to 'Edit', edit_description_path(description) %></td>
+        <td><%= link_to 'Destroy', description, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Description', new_description_path %>
