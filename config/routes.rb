@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   resources :strands,     controller: 'descriptions', type: 'strand',   path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/strands"
 
   resources :materials
-  resources :gemstones,   controller: 'materials', type: 'gemstone', path: '/gemstones'
-  resources :metals,      controller: 'materials', type: 'metal',    path: '/metals'
-  resources :man_mades,   controller: 'materials', type: 'man-made', path: '/man-mades'
+  resources :gemstones,   controller: 'materials', type: 'gemstone', path: "#{MaterialsController::TYPE_ROUTE_PREFIX}/gemstones"
+  resources :metals,      controller: 'materials', type: 'metal',    path: "#{MaterialsController::TYPE_ROUTE_PREFIX}/metals"
+  resources :man_mades,   controller: 'materials', type: 'man-made', path: "#{MaterialsController::TYPE_ROUTE_PREFIX}/man-mades"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

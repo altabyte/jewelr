@@ -58,7 +58,7 @@ class DescriptionsController < ApplicationController
   def type
     unless @type
       begin
-        type_name = params.key?(:type) ? "#{Description.name}::#{params[:type].gsub('-', '_').camelize}" : 'Description'
+        type_name = params.key?(:type) ? "#{Description.name}::#{params[:type].gsub('-', '_').camelize}" : Description.name
         @type = type_name.constantize
       rescue
         @type = Description

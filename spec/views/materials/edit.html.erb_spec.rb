@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe 'materials/edit', type: :view do
   before(:each) do
     @material = assign(:material, FactoryGirl.create(:gemstone))
-    #  :name_en => 'MyString',
-    #  :name_zh => 'MyString',
-    #  :name_pinyin => 'MyString',
-    #  :description => 'MyString',
-    #  :notes => 'MyString',
-    #  :selectable => false,
-    #  :inherit_display_name => false
-    #))
   end
 
   it 'renders the edit material form' do

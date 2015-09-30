@@ -1,5 +1,9 @@
 class MaterialsController < ApplicationController
 
+  # A prefix to be prepend to material routes.
+  # Eg. The route to Material::Gemstone would be '/material/gemstones'
+  TYPE_ROUTE_PREFIX = '/material'
+
   before_action :authenticate_user!
   before_action :set_material, only: [:show, :edit, :update, :destroy]
   before_action :set_parent, only: [:new, :edit, :update]
@@ -7,7 +11,7 @@ class MaterialsController < ApplicationController
 
   # GET /materials
   def index
-    case type
+    case type.name
       when Material::Gemstone.name
         @materials = Material.gemstones
         @materials_hash = Material.gemstones.hash_tree
@@ -29,8 +33,8 @@ class MaterialsController < ApplicationController
 
   # GET /materials/new
   def new
-    redirect_to(materials_path, :notice => 'Undefined parent') and return unless @parent
-    @material = type_class.new
+    redirect_to(materials_path, notice: 'Undefined parent') and return unless @parent
+    @material = type.new
     @material.parent = @parent
   end
 
@@ -67,31 +71,34 @@ class MaterialsController < ApplicationController
   #---------------------------------------------------------------------------
   private
 
+  def type
+    unless @type
+      begin
+        type_name = params.key?(:type) ? "#{Material.name}::#{params[:type].gsub('-', '_').camelize}" : Material.name
+        @type = type_name.constantize
+      rescue
+        @type = Material
+      end
+    end
+    @type
+  end
+
   def set_type
     @type = type
-  end
-
-  def type
-    type = params.key?(:type) ? "#{Material.name}::#{params[:type].gsub('-', '_').camelize}" : 'Material'
-    Material.type_names.include?(type) ? type : Material.name
-  end
-
-  def type_class
-    type.constantize
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_material
     begin
-      @material = type_class.find(params[:id])
+      @material = type.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      redirect_to materials_path, alert: "Could not find #{type_class.name.split(':').last} with ID #{params[:id]}!"
+      redirect_to materials_path, alert: "Could not find #{type.name.split(':').last} with ID #{params[:id]}!"
     end
   end
 
   def set_parent
     return unless params[:p]
-    @parent = type_class.find(params[:p]) if type_class.exists?(params[:p])
+    @parent = type.find(params[:p]) if type.exists?(params[:p])
     @parent_id = @parent.nil? ? nil : @parent.id
   end
 
@@ -110,7 +117,7 @@ class MaterialsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def material_params
-    key = type.underscore.gsub('/', '_').to_sym # form will typically submit 'material/gemstone'
+    key = type.name.underscore.gsub('/', '_').to_sym # form will typically submit 'material/gemstone'
     params.require(key).permit(:type,
                                :parent_id,
                                :name_en,

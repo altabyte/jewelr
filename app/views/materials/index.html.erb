@@ -2,10 +2,10 @@
 
 <div id="material-type-links">
   <ul>
-    <li class="<%= @type.blank? || @type == Material.name ? 'selected' : '' %>"><%= link_to 'All', materials_path %></li>
-    <li class="<%= @type == Material::Gemstone.name ? 'selected' : '' %>"><%= link_to 'Gemstones', gemstones_path %></li>
-    <li class="<%= @type == Material::Metal.name ? 'selected' : '' %>"><%= link_to 'Metals', metals_path %></li>
-    <li class="<%= @type == Material::ManMade.name ? 'selected' : '' %>"><%= link_to 'Man-mades', man_mades_path %></li>
+    <li class="<%= @type.blank? || @type == Material ? 'selected' : '' %>"><%= link_to 'All', materials_path %></li>
+    <li class="<%= @type == Material::Gemstone ? 'selected' : '' %>"><%= link_to 'Gemstones', gemstones_path %></li>
+    <li class="<%= @type == Material::Metal ? 'selected' : '' %>"><%= link_to 'Metals', metals_path %></li>
+    <li class="<%= @type == Material::ManMade ? 'selected' : '' %>"><%= link_to 'Man-mades', man_mades_path %></li>
   </ul>
 </div>
 
