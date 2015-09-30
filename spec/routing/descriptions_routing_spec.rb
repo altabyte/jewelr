@@ -1,39 +1,67 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe DescriptionsController, type: :routing do
-  describe "routing" do
+  describe 'routing' do
 
-    it "routes to #index" do
-      expect(:get => "/descriptions").to route_to("descriptions#index")
+    def self.description_types
+      types = []
+      Dir.foreach("#{Rails.root}/app/models/description") do |type|
+        next if %w'. ..'.include? type
+        types << type.gsub('_', '-').gsub('.rb', '')
+      end
+      types
     end
+    let(:description_types) { self.class.description_types }
 
-    it "routes to #new" do
-      expect(:get => "/descriptions/new").to route_to("descriptions#new")
+    let(:prefix) { DescriptionsController::TYPE_ROUTE_PREFIX }
+
+    describe 'STI CRUD routes' do
+      description_types.each do |type|
+
+        it 'routes to #index' do
+          path = "#{prefix}/#{type.pluralize}"
+          puts "GET:    #{path}"
+          expect(get: path).to route_to('descriptions#index', type: type)
+        end
+
+        it 'routes to #new' do
+          path = "#{prefix}/#{type.pluralize}/new"
+          puts "GET:    #{path}"
+          expect(get: path).to route_to('descriptions#new', type: type)
+        end
+
+        it 'routes to #show' do
+          path = "#{prefix}/#{type.pluralize}/1"
+          puts "GET:    #{path}"
+          expect(get: path).to route_to('descriptions#show', type: type, id: '1')
+        end
+
+        it 'routes to #edit' do
+          path = "#{prefix}/#{type.pluralize}/1/edit"
+          puts "GET:    #{path}"
+          expect(get: path).to route_to('descriptions#edit', type: type, id: '1')
+        end
+
+        it 'routes to #create' do
+          path = "#{prefix}/#{type.pluralize}"
+          puts "POST:   #{path}"
+          expect(post: path).to route_to('descriptions#create', type: type)
+        end
+
+        it 'routes to #update' do
+          path = "#{prefix}/#{type.pluralize}/1"
+          puts "PUT:    #{path}"
+          puts "PATCH:  #{path}"
+          expect(put:   path).to route_to('descriptions#update', type: type, id: '1')
+          expect(patch: path).to route_to('descriptions#update', type: type, id: '1')
+        end
+
+        it 'routes to #destroy' do
+          path = "#{prefix}/#{type.pluralize}/1"
+          puts "DELETE: #{path}"
+          expect(delete: path).to route_to('descriptions#destroy', type: type, id: '1')
+        end
+      end
     end
-
-    it "routes to #show" do
-      expect(:get => "/descriptions/1").to route_to("descriptions#show", :id => "1")
-    end
-
-    it "routes to #edit" do
-      expect(:get => "/descriptions/1/edit").to route_to("descriptions#edit", :id => "1")
-    end
-
-    it "routes to #create" do
-      expect(:post => "/descriptions").to route_to("descriptions#create")
-    end
-
-    it "routes to #update via PUT" do
-      expect(:put => "/descriptions/1").to route_to("descriptions#update", :id => "1")
-    end
-
-    it "routes to #update via PATCH" do
-      expect(:patch => "/descriptions/1").to route_to("descriptions#update", :id => "1")
-    end
-
-    it "routes to #destroy" do
-      expect(:delete => "/descriptions/1").to route_to("descriptions#destroy", :id => "1")
-    end
-
   end
 end

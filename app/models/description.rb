@@ -1,4 +1,5 @@
 class Description < ActiveRecord::Base
+  include UniquelyIdentifiable
 
   validates :type, presence: true
 

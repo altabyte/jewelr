@@ -6,11 +6,18 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#index'
 
   resources :descriptions
+  resources :beads,       controller: 'descriptions', type: 'bead',     path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/beads"
+  resources :bead_sets,   controller: 'descriptions', type: 'bead-set', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/bead-sets"
+  resources :bracelets,   controller: 'descriptions', type: 'bracelet', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/bracelets"
+  resources :earrings,    controller: 'descriptions', type: 'earrings', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/earrings"
+  resources :necklaces,   controller: 'descriptions', type: 'necklace', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/necklaces"
+  resources :pendants,    controller: 'descriptions', type: 'pendant',  path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/pendants"
+  resources :strands,     controller: 'descriptions', type: 'strand',   path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/strands"
 
   resources :materials
-  resources :gemstones,  controller: 'materials', type: 'gemstone', path: '/gemstones'
-  resources :metals,     controller: 'materials', type: 'metal',    path: '/metals'
-  resources :man_mades,  controller: 'materials', type: 'man-made', path: '/man-mades'
+  resources :gemstones,   controller: 'materials', type: 'gemstone', path: '/gemstones'
+  resources :metals,      controller: 'materials', type: 'metal',    path: '/metals'
+  resources :man_mades,   controller: 'materials', type: 'man-made', path: '/man-mades'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

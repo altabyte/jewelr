@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Descriptions", type: :request do
+RSpec.describe 'Descriptions', type: :request do
 
   context 'Not signed in' do
     describe 'GET /descriptions' do
