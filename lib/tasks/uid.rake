@@ -54,7 +54,7 @@ namespace :uid do
   task :generate do
     puts 'Generating random UID list...'
     min            = 1_000_000  # Smallest number
-    max            = 1_020_000 # 9_999_999  # Largest number
+    max            = 9_999_999  # Largest number
     digits         = UID.configuration.digits
     path           = UID.configuration.path
     seed           = UID.configuration.seed || Random.new_seed
