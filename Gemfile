@@ -15,6 +15,9 @@ gem 'uglifier', '>= 1.3.0'        # Use Uglifier as compressor for JavaScript as
 gem 'coffee-rails', '~> 4.1.0'    # Use CoffeeScript for .coffee assets and views
 gem 'color'
 
+# https://github.com/toretore/barby
+gem 'barby'
+
 # https://github.com/plataformatec/devise
 gem 'devise', '~> 3.5'
 

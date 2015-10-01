@@ -19,6 +19,7 @@ module MaterialsHelper
       string << link_to(material.name(locale), sti_material_path(material, material.type, :edit))
       string << '</span>'
       string << link_to('+', "#{sti_material_path(nil, material.type, :new)}?p=#{material.id}", class: 'add-new-material')
+      string << barcode(material.id)
       #string << link_to('Show', sti_material_path(material.type, material))
       #string << link_to('Edit', sti_material_path(material.type, material, :edit))
       #string << link_to('×', sti_material_path(material.type, material), method: :delete, data: { confirm: 'Do you really want to delete this material?' })
