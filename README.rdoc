@@ -1,5 +1,15 @@
 == README
 
+After cloning this project remember to also clone the private seed data.
+
+    $ pushd private_data
+
+    $ git clone jewelr_private_data  # From BitBucket.org
+
+    $ popd
+
+    $ ./private_data/setup.sh
+
 # Generate UIDs
 
     $ ./bin/rake uid:generate
