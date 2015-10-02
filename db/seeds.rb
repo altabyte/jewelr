@@ -1,28 +1,46 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'uid/reset'
+UID::Reset.reset
 
+SEEDS_DIR = "#{__dir__}/seeds"
+
+User.delete_all
+user_seeds = "#{SEEDS_DIR}/users.rb"
+if File.exists?(user_seeds)
+  require user_seeds
+else
+  puts
+  puts '==================================================='
+  puts '  No users imported!'
+  puts '==================================================='
+  puts
+end
+
+
+Material.destroy_all
 Material.rebuild!
 
-Material::Gemstone.delete_all
-Material::Metal.delete_all
-Material::ManMade.delete_all
-
 #-- Gemstones ----------------------------------------------------------------
-gemstones = Material::Gemstone.new(name_en: 'Gemstone', selectable: false)
-gemstones.save!
-puts 'Created gemstones'
+$gemstones = Material::Gemstone.new(name_en: 'Gemstone', selectable: false)
+$gemstones.save!
+puts 'Created Material::Gemstone'
 
 #-- Metals -------------------------------------------------------------------
-metals    = Material::Metal.new(name_en: 'Metal', selectable: false)
-metals.save!
-puts 'Created metals'
+$metals = Material::Metal.new(name_en: 'Metal', selectable: false)
+$metals.save!
+puts 'Created Material::Metal'
 
 #-- Man Mades ----------------------------------------------------------------
-man_mades = Material::ManMade.new(name_en: 'Man Made', selectable: false)
-man_mades.save!
-puts 'Created man-mades'
+$man_mades = Material::ManMade.new(name_en: 'Man Made', selectable: false)
+$man_mades.save!
+puts 'Created Material::ManMade'
+
+material_seeds = "#{SEEDS_DIR}/materials.rb"
+if File.exists?(material_seeds)
+  require material_seeds
+else
+  puts
+  puts '==================================================='
+  puts '  No materials imported!'
+  puts '==================================================='
+  puts
+end

@@ -10,6 +10,8 @@
 /.env
 /config/uids/*.txt
 
+/db/seeds/*.rb
+
 # Ignore bundler config.
 /.bundle
 

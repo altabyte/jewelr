@@ -15,7 +15,7 @@ module MaterialsHelper
     traverse_materials_tree materials_hash, locale do |material, depth|
       string << '<li>'
       string << "<span class='material-name'>"
-      (0...depth).each { string << '&nbsp; &nbsp; ' }
+      (0...depth).each { string << '&nbsp; &nbsp; &nbsp; ' }
       string << link_to(material.name(locale), sti_material_path(material, material.type, :edit))
       string << '</span>'
       string << link_to('+', "#{sti_material_path(nil, material.type, :new)}?p=#{material.id}", class: 'add-new-material')
