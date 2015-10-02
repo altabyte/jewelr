@@ -10,8 +10,8 @@
 /.env
 /config/uids/*.txt
 
-/private_data
-/db/seeds/*.rb
+/jewelr_private_data
+/db/seeds
 
 # Ignore bundler config.
 /.bundle
