@@ -38,7 +38,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.jsonb :settings, null: false, default: {}
+      t.jsonb :preferences, null: false, default: {}
     end
 
     add_index :users, :username,             unique: true
@@ -48,6 +48,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
 
-    add_index :users, :settings, using: :gin
+    add_index :users, :preferences, using: :gin
   end
 end

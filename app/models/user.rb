@@ -14,27 +14,32 @@ class User < ActiveRecord::Base
          :trackable,
          :validatable
 
-  store_accessor :settings, :locale
+  store_accessor :preferences, :locale
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
-  serialize :settings, HashSerializer
+  serialize :preferences, HashSerializer
 
-  before_validation(on: :create) { ensure_authentication_token }
+  before_validation(on: :create) {
+    init_default_preferences
+    ensure_authentication_token
+  }
   before_validation { ensure_user_id }
 
   validates :username, presence: true
   validates :authentication_token, presence: true
 
   def username=(username)
-    self[:username] = username.blank? ? nil : username
+    self[:username] = username.blank? ? nil : username.strip
   end
 
+  # Get the user's preferred locale.
+  # @return [Symbol] locale, eg :en
   def locale
-    (self.settings[:locale] || I18n.default_locale).to_sym
+    (self.preferences['locale'] || I18n.default_locale).to_sym
   end
 
   def locale=(locale)
-    self.settings[:locale] = locale if I18n.locale_available?(locale)
+    self.preferences['locale'] = locale if I18n.locale_available?(locale)
     self.locale
   end
 
@@ -57,5 +62,9 @@ class User < ActiveRecord::Base
 
   def ensure_authentication_token
     generate_authentication_token if self.authentication_token.blank?
+  end
+
+  def init_default_preferences
+    self.locale = I18n.default_locale
   end
 end

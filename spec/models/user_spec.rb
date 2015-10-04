@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
   end
 
 
-  describe 'Setting the user locale' do
+  describe 'Preferences the user locale' do
     subject(:user) { FactoryGirl.create(:user) }
 
     it 'should have :en as the default locale' do
@@ -53,8 +53,8 @@ RSpec.describe User, type: :model do
       user.reload
       expect(user.locale).to eq(:zh)
 
-      expect(user.settings['locale']).to eq('zh')
-      expect(user.settings[:locale]).to eq('zh')
+      expect(user.preferences['locale']).to eq('zh')
+      expect(user.preferences[:locale]).to eq('zh')
     end
 
     it 'should ignore invalid locales, such as :pl' do
@@ -64,17 +64,17 @@ RSpec.describe User, type: :model do
   end
 
 
-  describe 'Setting a custom user setting' do
+  describe 'Preferences a custom user setting' do
     subject(:user) { FactoryGirl.create(:user) }
 
     it 'maintains Fixnums after reloading' do
-      user.settings[:some_integer] = 123
+      user.preferences[:some_integer] = 123
       expect(user.save).to be true
       user.reload
 
-      expect(user.settings).to have_key(:some_integer)
-      expect(user.settings[:some_integer]).to be_a(Fixnum)
-      expect(user.settings[:some_integer]).to eq(123)
+      expect(user.preferences).to have_key(:some_integer)
+      expect(user.preferences[:some_integer]).to be_a(Fixnum)
+      expect(user.preferences[:some_integer]).to eq(123)
 
       expect(user).not_to respond_to :some_integer
     end
