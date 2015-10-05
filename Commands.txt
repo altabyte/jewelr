@@ -38,3 +38,6 @@ rails new jewelr -T --database=postgresql
 # Add descriptions
 ./bin/rails g money_rails:initializer
 ./bin/rails g scaffold Description acc_price:integer target_price:integer unique:boolean weight_net:integer weight_gross:integer archived:datetime
+
+# Add component model to link descriptions to materials.
+./bin/rails g model Ingredient position:integer significance:integer genuine:boolean adjective:string

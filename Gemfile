@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 
 # Must be before other gems that rely on environmental variables!
-gem 'dotenv-rails', require: 'dotenv/rails-now', :groups => [:development, :test]
+gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
@@ -24,6 +24,9 @@ gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 gem 'jquery-turbolinks'
+
+# https://github.com/swanandp/acts_as_list
+gem 'acts_as_list'
 
 # https://github.com/toretore/barby
 gem 'barby'

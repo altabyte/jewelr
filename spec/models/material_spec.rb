@@ -7,6 +7,7 @@ RSpec.describe Material, type: :model do
   it { is_expected.to be_a_closure_tree }
 
   it { is_expected.to validate_presence_of(:type) }
+  it { is_expected.to have_many(:descriptions).through(:ingredients) }
 
   describe 'Primary key ID' do
     subject(:material) { FactoryGirl.build(:gemstone) }

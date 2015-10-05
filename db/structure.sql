@@ -88,6 +88,40 @@ ALTER SEQUENCE descriptions_id_seq OWNED BY descriptions.id;
 
 
 --
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ingredients (
+    id integer NOT NULL,
+    description_id integer NOT NULL,
+    material_id integer NOT NULL,
+    "position" integer,
+    significance smallint DEFAULT 0 NOT NULL,
+    genuine boolean DEFAULT true NOT NULL,
+    adjective character varying
+);
+
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ingredients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ingredients_id_seq OWNED BY ingredients.id;
+
+
+--
 -- Name: material_hierarchies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -214,6 +248,13 @@ ALTER TABLE ONLY descriptions ALTER COLUMN id SET DEFAULT nextval('descriptions_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY ingredients ALTER COLUMN id SET DEFAULT nextval('ingredients_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY materials ALTER COLUMN id SET DEFAULT nextval('materials_id_seq'::regclass);
 
 
@@ -233,6 +274,14 @@ ALTER TABLE ONLY descriptions
 
 
 --
+-- Name: ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ingredients
+    ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: materials_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -246,6 +295,20 @@ ALTER TABLE ONLY materials
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_ingredients_on_description_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ingredients_on_description_id ON ingredients USING btree (description_id);
+
+
+--
+-- Name: index_ingredients_on_material_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ingredients_on_material_id ON ingredients USING btree (material_id);
 
 
 --
@@ -321,4 +384,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150923190028');
 INSERT INTO schema_migrations (version) VALUES ('20150925100450');
 
 INSERT INTO schema_migrations (version) VALUES ('20150928105423');
+
+INSERT INTO schema_migrations (version) VALUES ('20151005125603');
 

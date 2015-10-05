@@ -1,6 +1,12 @@
 class Description < ActiveRecord::Base
   include UniquelyIdentifiable
 
+  has_many :ingredients, -> { order('position ASC') }
+  has_many :materials, -> { distinct }, through: :ingredients
+
+  # Add { _destroy: '1' } to ingredients attributes hash to destroy it from a form submission.
+  accepts_nested_attributes_for :ingredients, allow_destroy: true
+
   validates :type, presence: true
 
   monetize :acc_price_cents,

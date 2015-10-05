@@ -7,9 +7,11 @@ class Material < ActiveRecord::Base
   # http://szeliga.me/sorting-active-record-relation-by-postgresql-hstore-value/
   acts_as_tree # order: 'name_en -> "names"'
 
-  serialize :aliases, HashSerializer
+  has_many :ingredients
+  has_many :descriptions, through: :ingredients
 
   store_accessor :aliases, :alias_en
+  serialize      :aliases, HashSerializer
 
   before_validation :correct_aliases
 
