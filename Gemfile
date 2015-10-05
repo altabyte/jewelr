@@ -13,22 +13,6 @@ gem 'redis-namespace'
 gem 'sass-rails', '~> 5.0'        # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'        # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.1.0'    # Use CoffeeScript for .coffee assets and views
-gem 'color'
-
-# https://github.com/toretore/barby
-gem 'barby'
-
-# https://github.com/plataformatec/devise
-gem 'devise', '~> 3.5'
-
-# https://github.com/plataformatec/simple_form
-gem 'simple_form'
-
-# https://github.com/mceachen/closure_tree
-gem 'closure_tree'
-
-# https://github.com/RubyMoney/money-rails
-gem 'money-rails'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -41,12 +25,26 @@ gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
+# https://github.com/toretore/barby
+gem 'barby'
+
+# https://github.com/halostatue/color
+gem 'color'
+
+# https://github.com/mceachen/closure_tree
+gem 'closure_tree'
+
+# https://github.com/plataformatec/devise
+gem 'devise', '~> 3.5'
+
+# https://github.com/RubyMoney/money-rails
+gem 'money-rails'
+
+# https://github.com/plataformatec/simple_form
+gem 'simple_form'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.0'
-
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -57,10 +55,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0', group: :doc
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 
 group :development do

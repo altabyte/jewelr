@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Description, type: :model do
 
+  it { is_expected.to validate_presence_of(:type) }
+
   describe 'The FactoryGirl default models' do
     subject(:description) { FactoryGirl.create(:description) }
     it { is_expected.not_to be_nil }
