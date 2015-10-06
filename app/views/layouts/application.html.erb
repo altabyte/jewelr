@@ -30,5 +30,11 @@
   </div>
 </div>
 
+<%#
+    Gon recommends placing include_gon in the head section, however this
+    will not work when using TurboLinks. TurboLinks only reloads the content
+    in the Body, so it is best to include it here.
+-%>
+<%= include_gon %>
 </body>
 </html>

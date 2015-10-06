@@ -40,6 +40,9 @@ gem 'closure_tree'
 # https://github.com/plataformatec/devise
 gem 'devise', '~> 3.5'
 
+# https://github.com/gazay/gon
+gem 'gon'
+
 # https://github.com/RubyMoney/money-rails
 gem 'money-rails'
 
