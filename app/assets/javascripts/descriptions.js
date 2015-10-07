@@ -70,7 +70,7 @@ $(document).on("ready page:load", function () {
             }
 
             function nestedModelID(model, nestedModel, index, field, subField) {
-                var id = '' + model.toLowerCase() + '_' + nestedModel + '_' + index + '_' + field;
+                var id = '' + model.toLowerCase().replace(/[:]+/, '_') + '_' + nestedModel + '_' + index + '_' + field;
                 if (subField !== undefined) {
                     id += '_' + subField;
                 }
@@ -78,14 +78,17 @@ $(document).on("ready page:load", function () {
             }
 
             function nestedModelName(model, nestedModel, index, field) {
-                return '' + model.toLowerCase() + '[' + nestedModel + '][' + index + '][' + field + ']';
+                return '' + model.toLowerCase().replace(/[:]+/, '_') + '[' + nestedModel + '][' + index + '][' + field + ']';
             }
 
 
             function getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance, index) {
                 var renderLabelForGenuine = false;
                 var string = '<div class="handle">' + material_name + '</div>';
-                string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'id') + ' value="' + ingredient_id + '">';
+                if (ingredient_id != null) {
+                    string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'id') + ' value="' + ingredient_id + '">';
+                }
+
                 string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'material_id') + ' value="' + material_id + '">';
                 string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'position') + ' value="' + position + '" class="position" >';
 
