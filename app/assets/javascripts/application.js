@@ -11,6 +11,9 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui/autocomplete
+//= require jquery-ui/button
+//= require jquery-ui/sortable
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks

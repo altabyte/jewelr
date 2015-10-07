@@ -7,6 +7,7 @@ class DescriptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_description, only: [:show, :edit, :update, :destroy]
   before_action :set_type
+  before_action :gon_materials, only: [:edit, :new]
 
   # GET /descriptions
   def index
@@ -88,6 +89,25 @@ class DescriptionsController < ApplicationController
         :archived,
         :packaged_size_x,
         :packaged_size_y,
-        :packaged_size_z)
+        :packaged_size_z,
+        ingredients_attributes: [
+            :id,
+            :material_id,
+            :genuine,
+            :position,
+            :significance])
+  end
+
+  def gon_materials
+    gon.materials = []
+    Material.all.each do |material|
+      gon.materials << {
+          value:  material.id,
+          en:     material.name_en,
+          zh:     material.name_zh,
+          pinyin: material.name_pinyin
+      }
+    end
+    gon.materials
   end
 end

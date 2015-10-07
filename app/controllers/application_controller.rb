@@ -31,6 +31,6 @@ class ApplicationController < ActionController::Base
     locale = current_user.locale if current_user && current_user.locale && I18n.locale_available?(current_user.locale)
     locale = params[:locale] if params[:locale] && I18n.locale_available?(params[:locale])
     I18n.locale = locale
-    #gon.locale = I18n.locale  # Set javascript variable to be used in views
+    gon.locale = I18n.locale  # Set javascript variable to be used in views
   end
 end

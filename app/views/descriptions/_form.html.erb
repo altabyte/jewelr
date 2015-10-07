@@ -1,16 +1,50 @@
 <%= simple_form_for(@description) do |f| %>
-  <%= f.error_notification %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :acc_price %>
-    <%= f.input :target_price %>
-    <%= f.input :unique %>
-    <%= f.input :weight_net %>
-    <%= f.input :weight_gross %>
-    <%= f.input :archived %>
-  </div>
+    <%= javascript_tag "var description_type='#{@description.type}';" %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+    <div class="form-inputs">
+      <%= f.input :acc_price %>
+      <%= f.input :target_price %>
+      <%= f.input :unique %>
+
+      <div id="weights">
+        <%= f.input :weight_net %>
+        <%= f.input :weight_gross %>
+      </div>
+
+      <%#= f.input :archived %>
+
+
+      <div id="ingredients" data-count="<%= @description.ingredients.count %>">
+        <fieldset>
+          <legend>Materials</legend>
+          <div>
+            <input id='material-name-input' data-disabled="true"/>
+            <a href="javascript:void(0)" id="add-ingredient-button" class="button disabled">Add</a>
+          </div>
+          <ol id="ingredients-list">
+            <% @description.ingredients.each do |ingredient| -%>
+                <%= content_tag :li,
+                                class: 'ingredient',
+                                data: {
+                                        id: ingredient.id,
+                                        material_id: ingredient.material.id,
+                                        material_name_en: ingredient.material.name_en,
+                                        material_name_zh: ingredient.material.name_zh ? ingredient.material.name_zh : ingredient.material.name_en,
+                                        position: ingredient.position,
+                                        genuine: ingredient.genuine,
+                                        significance: ingredient.significance
+                                } do %>
+                <% end %>
+            <% end -%>
+          </ol>
+        </fieldset>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit %>
+      </div>
+
+    </div>
 <% end %>
