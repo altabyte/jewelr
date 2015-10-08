@@ -98,7 +98,8 @@ CREATE TABLE ingredients (
     "position" integer,
     significance smallint DEFAULT 0 NOT NULL,
     genuine boolean DEFAULT true NOT NULL,
-    adjective character varying
+    adjective character varying,
+    text character varying
 );
 
 

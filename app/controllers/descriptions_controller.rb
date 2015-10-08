@@ -111,9 +111,11 @@ class DescriptionsController < ApplicationController
         ingredients_attributes: [
             :id,
             :material_id,
+            :adjective,
             :genuine,
             :position,
             :significance,
+            :text,
             :_destroy])
   end
 
