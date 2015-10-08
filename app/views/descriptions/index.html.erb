@@ -2,9 +2,16 @@
 
 <h1>Listing Descriptions</h1>
 
+<ul id="new-description-buttons">
+  <li><%= link_to 'Necklace', new_necklace_path %></li>
+  <li><%= link_to 'Bracelet', new_bracelet_path %></li>
+  <li><%= link_to 'Earrings', new_earring_path %></li>
+</ul>
+
 <table>
   <thead>
     <tr>
+      <th>ID</th>
       <th>Acc price</th>
       <th>Target price</th>
       <th>Unique</th>
@@ -18,15 +25,16 @@
   <tbody>
     <% @descriptions.each do |description| %>
       <tr>
+        <td><%= description.id %></td>
         <td><%= description.acc_price %></td>
         <td><%= description.target_price %></td>
         <td><%= description.unique %></td>
         <td><%= description.weight_net %></td>
         <td><%= description.weight_gross %></td>
         <td><%= description.archived %></td>
-        <td><%= link_to 'Show', description %></td>
-        <td><%= link_to 'Edit', edit_description_path(description) %></td>
-        <td><%= link_to 'Destroy', description, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', sti_description_path(description, description.type, :show) %></td>
+        <td><%= link_to 'Edit', sti_description_path(description, description.type, :edit) %></td>
+        <td><%= link_to 'Delete', sti_description_path(description, description.type, :delete), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +42,4 @@
 
 <br>
 
-<%= link_to 'New Description', new_description_path %>
+

@@ -79,6 +79,8 @@ class DescriptionsController < ApplicationController
   end
 
   def redirect_path_for(description)
+    descriptions_path
+=begin
     case description
       when Description::Necklace then
         necklaces_path
@@ -89,6 +91,7 @@ class DescriptionsController < ApplicationController
       else
         descriptions_path
     end
+=end
   end
 
   # Only allow a trusted parameter "white list" through.

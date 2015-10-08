@@ -116,7 +116,7 @@ RSpec.describe DescriptionsController, type: :controller do
 
       it 'redirects to the created description' do
         post :create, { description: valid_attributes }, valid_session
-        expect(response).to redirect_to(Description.last)
+        expect(response).to redirect_to(descriptions_path)
       end
     end
 
@@ -158,7 +158,7 @@ RSpec.describe DescriptionsController, type: :controller do
       it 'redirects to the description' do
         description = Description.create! valid_attributes
         put :update, { id: description.to_param, description: valid_attributes }, valid_session
-        expect(response).to redirect_to(description)
+        expect(response).to redirect_to(descriptions_path)
       end
     end
 

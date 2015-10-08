@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :beads,       controller: 'descriptions', type: 'bead',     path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/beads"
   resources :bead_sets,   controller: 'descriptions', type: 'bead-set', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/bead-sets"
   resources :bracelets,   controller: 'descriptions', type: 'bracelet', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/bracelets"
-  resources :earrings,    controller: 'descriptions', type: 'earrings', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/earrings"
+  resources :earrings,    controller: 'descriptions', type: 'earring',  path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/earrings"
   resources :necklaces,   controller: 'descriptions', type: 'necklace', path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/necklaces"
   resources :pendants,    controller: 'descriptions', type: 'pendant',  path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/pendants"
   resources :strands,     controller: 'descriptions', type: 'strand',   path: "#{DescriptionsController::TYPE_ROUTE_PREFIX}/strands"
