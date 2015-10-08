@@ -5,6 +5,10 @@ module StiHelper
     send "#{format_sti(material, type, action)}_path", material
   end
 
+  def sti_description_path(description = nil, type = Description.name, action = nil)
+    send "#{format_sti(description, type, action)}_path", description
+  end
+
   #---------------------------------------------------------------------------
   private
 

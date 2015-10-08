@@ -1,9 +1,17 @@
-<%= simple_form_for(@description) do |f| %>
+<%= simple_form_for(@description, url: description_simple_form_url(@description), method: @description.new_record? ? :post : :patch) do |f| %>
+
+    <div id="button-bar" class="form-actions">
+      <%= link_to '&#8672; Back to descriptions'.html_safe, descriptions_path %>
+      <%= f.button :submit, 'Save' %>
+      <% unless @description.new_record? %>
+          <%= link_to'Delete', sti_description_path(@description, @description.type, :delete), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </div>
+
     <%= f.error_notification %>
 
-    <%= javascript_tag "var description_type='#{@description.type}';" %>
-
     <div class="form-inputs">
+      <%= f.input :type, as: :hidden %>
       <%= f.input :acc_price %>
       <%= f.input :target_price %>
       <%= f.input :unique %>
@@ -41,10 +49,5 @@
           </ol>
         </fieldset>
       </div>
-
-      <div class="form-actions">
-        <%= f.button :submit %>
-      </div>
-
     </div>
 <% end %>

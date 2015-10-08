@@ -15,11 +15,17 @@ $(document).on("ready page:load", function () {
 
         if ($("#ingredients").length) {
 
-            var ingredientsCount = 0;
-            /* Cannot use ingredientMaterialIDs.length as delete function only sets elements to undefined rather than removing them! */
             var locale = gon.locale !== undefined ? gon.locale : 'en';
+            var ingredientsCount = 0;
+
+            function reindexPositions() {
+                $('#ingredients-list .ingredient').each(function (index) {
+                    $(this).find('.position').val(index + 1);
+                });
+            }
 
             function addMaterialEventHandler() {
+                reindexPositions();
                 var ingredient_id = null;
                 var material_id = $('#add-ingredient-button').data().material_id;
                 var materialNameEN = $('#add-ingredient-button').data().material_name_en;
@@ -50,61 +56,62 @@ $(document).on("ready page:load", function () {
                 var materialName = (locale == 'zh' ? materialNameZH : materialNameEN);
                 if (materialName == null) materialName = materialNameEN;
 
-                var newMaterialHTML = '<li class="ingredient" data-material-id="' + material_id + '" style="display: none;">' + getIngredientFields(ingredient_id, material_id, materialName, position, genuine, significance, ingredientsCount) + '</li>';
-                $(newMaterialHTML).appendTo("#ingredients-list").show('slow').each(function () {
-                    $('#ingredients-list .significance').buttonset();
-                    $('#ingredients-list .destroy').click(function () {
+                var newMaterialHTML = '<li class="ingredient" data-material-id="' + material_id + '" style="display: none;">' + getIngredientFields(ingredient_id, material_id, materialName, position, genuine, significance) + '</li>';
+                $(newMaterialHTML).appendTo("#ingredients-list")
+                    .show('slow')
+                    .find('.significance').buttonset().end()
+                    .find('.destroy').click(function () {
                         $(this).closest('li').hide('slow', function () {
                             $(this).closest('li').remove();
                         });
+                        reindexPositions();
                     });
-                });
 
                 $("#add-ingredient-button").removeData('material_id');
                 $('#material-name-input').val('');
             }
 
-            function nestedModelIdAndName(model, nestedModel, index, field, subField) {
-                return 'id="' + nestedModelID(model, nestedModel, index, field, subField) +
-                    '" name="' + nestedModelName(model, nestedModel, index, field) + '"';
+            function nestedModelIdAndName(nestedModel, index, field, subField) {
+                return 'id="' + nestedModelID(nestedModel, index, field, subField) +
+                    '" name="' + nestedModelName(nestedModel, index, field) + '"';
             }
 
-            function nestedModelID(model, nestedModel, index, field, subField) {
-                var id = '' + model.toLowerCase().replace(/[:]+/, '_') + '_' + nestedModel + '_' + index + '_' + field;
+            function nestedModelID(nestedModel, index, field, subField) {
+                var id = '' + gon.description_type + '_' + nestedModel.toLowerCase() + 's_attributes' + '_' + index + '_' + field;
                 if (subField !== undefined) {
                     id += '_' + subField;
                 }
                 return id;
             }
 
-            function nestedModelName(model, nestedModel, index, field) {
-                return '' + model.toLowerCase().replace(/[:]+/, '_') + '[' + nestedModel + '][' + index + '][' + field + ']';
+            function nestedModelName(nestedModel, index, field) {
+                return '' + gon.description_type + '[' + nestedModel.toLowerCase() + 's_attributes' + '][' + index + '][' + field + ']';
             }
 
-
-            function getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance, index) {
+            function getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance) {
                 var renderLabelForGenuine = false;
+
                 var string = '<div class="handle">' + material_name + '</div>';
                 if (ingredient_id != null) {
-                    string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'id') + ' value="' + ingredient_id + '">';
+                    string += '<input type="hidden" ' + nestedModelIdAndName('Ingredient', material_id, 'id') + ' value="' + ingredient_id + '">';
                 }
 
-                string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'material_id') + ' value="' + material_id + '">';
-                string += '<input type="hidden" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'position') + ' value="' + position + '" class="position" >';
+                string += '<input type="hidden" ' + nestedModelIdAndName('Ingredient', material_id, 'material_id') + ' value="' + material_id + '">';
+                string += '<input type="hidden" ' + nestedModelIdAndName('Ingredient', material_id, 'position') + ' value="' + position + '" class="position" >';
 
                 string += '<div class="significance">';
-                string += '<input type="radio" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'significance', 'primary') + ' value="primary"' + (significance == 'primary' ? ' checked="checked"' : '') + '>';
-                string += '<label for="' + nestedModelID(description_type, 'ingredients_attributes', index, 'significance', 'primary') + '">P</label>';
-                string += '<input type="radio" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'significance', 'secondary') + ' value="secondary"' + (significance == 'secondary' ? ' checked="checked"' : '') + '>';
-                string += '<label for="' + nestedModelID(description_type, 'ingredients_attributes', index, 'significance', 'secondary') + '">S</label>';
-                string += '<input type="radio" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'significance', 'tertiary') + ' value="tertiary"' + (significance == 'tertiary' ? ' checked="checked"' : '') + '>';
-                string += '<label for="' + nestedModelID(description_type, 'ingredients_attributes', index, 'significance', 'tertiary') + '">T</label>';
+                string += '<input type="radio" ' + nestedModelIdAndName('Ingredient', material_id, 'significance', 'primary') + ' value="primary"' + (significance == 'primary' ? ' checked="checked"' : '') + '>';
+                string += '<label for="' + nestedModelID('Ingredient', material_id, 'significance', 'primary') + '">P</label>';
+                string += '<input type="radio" ' + nestedModelIdAndName('Ingredient', material_id, 'significance', 'secondary') + ' value="secondary"' + (significance == 'secondary' ? ' checked="checked"' : '') + '>';
+                string += '<label for="' + nestedModelID('Ingredient', material_id, 'significance', 'secondary') + '">S</label>';
+                string += '<input type="radio" ' + nestedModelIdAndName('Ingredient', material_id, 'significance', 'tertiary') + ' value="tertiary"' + (significance == 'tertiary' ? ' checked="checked"' : '') + '>';
+                string += '<label for="' + nestedModelID('Ingredient', material_id, 'significance', 'tertiary') + '">T</label>';
                 string += '</div>';
 
                 var genuineChecked = (genuine == true ? 'checked="checked"' : '');
-                string += '<input type="checkbox" ' + nestedModelIdAndName(description_type, 'ingredients_attributes', index, 'genuine') + ' value="1" ' + genuineChecked + ' class="genuine">';
+                string += '<input type="checkbox" ' + nestedModelIdAndName('Ingredient', material_id, 'genuine') + ' value="1" ' + genuineChecked + ' class="genuine">';
                 if (renderLabelForGenuine) {
-                    string += '<label for="' + nestedModelID(description_type, 'ingredients_attributes', index, 'genuine') + '" class="genuine">Genuine</label>';
+                    string += '<label for="' + nestedModelID('Ingredient', material_id, 'genuine') + '" class="genuine">Genuine</label>';
                 }
 
                 string += '<span class="destroy" data-material-id="' + material_id + '">&times;</span>';
@@ -175,7 +182,7 @@ $(document).on("ready page:load", function () {
                 axis: 'y',
                 dropOnEmpty: false,
                 handle: '.handle',
-                cursor: 'crosshair',
+                cursor: 'move',
                 opacity: 0.4,
                 scroll: true,
                 scrollSpeed: 3,
@@ -187,25 +194,25 @@ $(document).on("ready page:load", function () {
                 }
             });
 
-            $('#ingredients-list .ingredient').append(function () {
-                var ingredient_id = $(this).data('id');
-                var material_id = $(this).data('material-id');
-                var material_name = (locale == 'zh' ? $(this).data('material-name-zh') : $(this).data('material-name-en'));
-                var position = $(this).data('position');
-                var genuine = $(this).data('genuine');
-                var significance = $(this).data('significance');
-                var index = position;
+            $('#ingredients-list .ingredient')
+                .append(function () {
+                    var ingredient_id = $(this).data('id');
+                    var material_id = $(this).data('material-id');
+                    var material_name = (locale == 'zh' ? $(this).data('material-name-zh') : $(this).data('material-name-en'));
+                    var position = $(this).data('position');
+                    var genuine = $(this).data('genuine');
+                    var significance = $(this).data('significance');
 
-                var string = getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance, index);
-                return string;
-            }).each(function () {
-                $('#ingredients-list .significance').buttonset();
-                $('#ingredients-list .destroy').click(function () {
+                    var string = getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance);
+                    return string;
+                })
+                .find('.significance').buttonset().end()
+                .find('.destroy').click(function () {
+                    var material_id = $(this).closest('li').data('material-id');
                     $(this).closest('li').hide('slow', function () {
-                        $(this).closest('li').remove();
+                        $(this).closest('li').append('<input type="hidden" ' + nestedModelIdAndName('Ingredient', material_id, '_destroy') + ' value="' + 1 + '">');
                     });
                 });
-            });
         }
     }
 });

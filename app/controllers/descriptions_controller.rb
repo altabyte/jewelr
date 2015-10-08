@@ -32,7 +32,7 @@ class DescriptionsController < ApplicationController
     @description = Description.new(description_params)
 
     if @description.save
-      redirect_to @description, notice: 'Description was successfully created.'
+      redirect_to redirect_path_for(@description), notice: 'Description was successfully created.'
     else
       render :new
     end
@@ -41,7 +41,7 @@ class DescriptionsController < ApplicationController
   # PATCH/PUT /descriptions/1
   def update
     if @description.update(description_params)
-      redirect_to @description, notice: 'Description was successfully updated.'
+      redirect_to redirect_path_for(@description), notice: 'Description was successfully updated.'
     else
       render :edit
     end
@@ -70,6 +70,7 @@ class DescriptionsController < ApplicationController
 
   def set_type
     @type = type
+    gon.description_type = type.name.downcase.gsub('::', '_')
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -77,9 +78,23 @@ class DescriptionsController < ApplicationController
     @description = Description.find(params[:id])
   end
 
+  def redirect_path_for(description)
+    case description
+      when Description::Necklace then
+        necklaces_path
+      when Description::Bracelet then
+        bracelets_path
+      when Description::Earring then
+        earrings_path
+      else
+        descriptions_path
+    end
+  end
+
   # Only allow a trusted parameter "white list" through.
   def description_params
-    params.require(:description).permit(
+    key = type.name.underscore.gsub('/', '_').to_sym # form will typically submit 'description/necklace'
+    params.require(key).permit(
         :type,
         :acc_price,
         :target_price,
@@ -95,7 +110,8 @@ class DescriptionsController < ApplicationController
             :material_id,
             :genuine,
             :position,
-            :significance])
+            :significance,
+            :_destroy])
   end
 
   def gon_materials
