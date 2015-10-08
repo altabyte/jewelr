@@ -1,0 +1,13 @@
+zh:
+  form:
+    save:   '保存'
+    update: '更新'
+  description:
+    edit:
+      acc_price:    '购买价格'
+      currency:     'Currency'
+      materials:    '材料'
+      target_price: '目标价'
+      unique:       '独特'
+      weight_gross: '总重量'
+      weight_net:   '净重'

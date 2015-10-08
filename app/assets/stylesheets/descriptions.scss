@@ -6,6 +6,37 @@
 
   #new, #edit, #create {
 
+    #acc-price, #target-price {
+
+      div, p {
+        display: inline-block;
+      }
+
+      p {
+        width: 90px;
+      }
+
+      label {
+        display: none;
+      }
+
+      select {
+        margin: 0 4px 0 6px;
+        padding: 0;
+        border: none;
+        outline: none;
+        display: inline-block;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        cursor: pointer;
+      }
+
+      input[type=number] {
+        width: 90px;
+      }
+    }
+
     #ingredients {
       width: 300px;
 

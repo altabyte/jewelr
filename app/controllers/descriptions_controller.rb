@@ -100,7 +100,9 @@ class DescriptionsController < ApplicationController
     params.require(key).permit(
         :type,
         :acc_price,
+        :acc_price_currency,
         :target_price,
+        :target_price_currency,
         :unique,
         :weight_net,
         :weight_gross,

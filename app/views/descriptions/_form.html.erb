@@ -2,7 +2,7 @@
 
     <div id="button-bar" class="form-actions">
       <%= link_to '&#8672; Back to descriptions'.html_safe, descriptions_path %>
-      <%= f.button :submit, 'Save' %>
+      <%= f.button :submit, t('form.save').html_safe %>
       <% unless @description.new_record? %>
           <%= link_to'Delete', sti_description_path(@description, @description.type, :delete), method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
@@ -12,21 +12,31 @@
 
     <div class="form-inputs">
       <%= f.input :type, as: :hidden %>
-      <%= f.input :acc_price %>
-      <%= f.input :target_price %>
-      <%= f.input :unique %>
+
+      <div id="acc-price">
+        <p><%= t('description.edit.acc_price') %></p>
+        <%= f.input :acc_price_currency, label: t('description.edit.currency'), collection: { '£' => 'GPB', '$' => 'USD', '¥' => 'CYN' }, selected: (@description.acc_price_currency || 'CYN'), input_html: { class: 'currency' }, label_html: { class: 'currency' } %>
+        <%= f.input :acc_price, as: :decimal, label: t('description.edit.acc_price'), placeholder: t('description.edit.acc_price') %>
+      </div>
+
+      <div id="target-price">
+        <p><%= t('description.edit.target_price') %></p>
+        <%= f.input :target_price_currency, label: t('description.edit.currency'), collection: { '£' => 'GPB', '$' => 'USD', '¥' => 'CYN' }, selected: (@description.target_price_currency || 'GBP'), input_html: { class: 'currency' }, label_html: { class: 'currency' } %>
+        <%= f.input :target_price, as: :decimal, label: t('description.edit.target_price'), placeholder: t('description.edit.target_price')  %>
+      </div>
+
+      <%= f.input :unique, label: t('description.edit.unique') %>
 
       <div id="weights">
-        <%= f.input :weight_net %>
-        <%= f.input :weight_gross %>
+        <%= f.input :weight_net, label: t('description.edit.weight_net') %>
+        <%= f.input :weight_gross, label: t('description.edit.weight_gross') %>
       </div>
 
       <%#= f.input :archived %>
 
-
       <div id="ingredients" data-count="<%= @description.ingredients.count %>">
         <fieldset>
-          <legend>Materials</legend>
+          <legend><%= t('description.edit.materials') %></legend>
           <div>
             <input id='material-name-input' data-disabled="true"/>
             <a href="javascript:void(0)" id="add-ingredient-button" class="button disabled">Add</a>

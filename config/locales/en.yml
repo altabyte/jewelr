@@ -20,4 +20,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  form:
+    save:   'Save'
+    update: 'Update'
+  description:
+    edit:
+      acc_price:    'Acc Price'
+      currency:     'Currency'
+      materials:    'Materials'
+      target_price: 'Target Price'
+      unique:       'Unique'
+      weight_gross: 'Gross weight'
+      weight_net:   'Net weight'
