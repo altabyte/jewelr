@@ -53,9 +53,9 @@ namespace :uid do
   desc 'Generate the UIDs'
   task :generate do
     puts 'Generating random UID list...'
-    min            = 1_000_000  # Smallest number
-    max            = 9_999_999  # Largest number
     digits         = UID.configuration.digits
+    min            = '1'.ljust(digits, '0').to_i  # Smallest number, eg 1_000_000
+    max            = '9'.ljust(digits, '9').to_i  # Largest number,  eg 9_999_999
     path           = UID.configuration.path
     seed           = UID.configuration.seed || Random.new_seed
     per_file       = UID.configuration.per_file

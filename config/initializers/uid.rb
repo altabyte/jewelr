@@ -32,6 +32,6 @@ UID.configuration.sequence_name    = 'UID_Sequence_Index'
 UID.configuration.digits           = 7
 UID.configuration.per_file         = 100_000
 UID.configuration.path             = Rails.root.join('config/uids')
-UID.configuration.file_prefix      = 'uids_'
+UID.configuration.file_prefix      = "uids_#{UID.configuration.digits}_"
 UID.configuration.file_extension   = '.txt'
 UID.configuration.seed             = ENV['UID_GENERATOR_SEED'].to_i
