@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/altabyte/scatter_swap
+  revision: 7d39e2e8525feb0d46cd10269750a12b322071e3
+  specs:
+    scatter_swap (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -44,7 +50,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
-    byebug (6.0.2)
+    byebug (8.0.0)
     closure_tree (6.0.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
@@ -239,6 +245,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   sass-rails (~> 5.0)
+  scatter_swap!
   sdoc (~> 0.4.0)
   shoulda-matchers
   simple_form

@@ -1,6 +1,8 @@
 class CreateMaterials < ActiveRecord::Migration
   def change
-    create_table :materials do |t|
+    create_table(:materials, id: false) do |t|
+
+      t.primary_key :id, :integer, null: false
 
       t.string  :type, null: false
       t.integer :parent_id

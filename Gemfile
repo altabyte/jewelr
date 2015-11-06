@@ -46,6 +46,9 @@ gem 'gon'
 # https://github.com/RubyMoney/money-rails
 gem 'money-rails'
 
+# https://github.com/altabyte/scatter_swap
+gem 'scatter_swap', git: 'https://github.com/altabyte/scatter_swap'
+
 # https://github.com/plataformatec/simple_form
 gem 'simple_form'
 

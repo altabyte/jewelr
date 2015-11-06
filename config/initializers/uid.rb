@@ -6,8 +6,10 @@ module UID
     end
   end
 
-  UidOptions = Struct.new(:sequence_source, :sequence_name, :seed, :path, :file_prefix, :file_extension, :digits, :per_file) do
+  SEQUENCE_7_DIGITS ||= 7.freeze
+  SEQUENCE_9_DIGITS ||= 9.freeze
 
+  UidOptions = Struct.new(:sequence_source, :sequence_7_name, :sequence_9_name, :sequence_7_seed, :sequence_9_seed) do
     def sequence_source=(source)
       raise 'UID sequence source must be either :redis or :postgres' unless [:redis, :postgres].include?(source)
       @sequence_source = source
@@ -27,11 +29,8 @@ module UID
   end
 end
 
-UID.configuration.sequence_source  = :postgres
-UID.configuration.sequence_name    = 'UID_Sequence_Index'
-UID.configuration.digits           = 7
-UID.configuration.per_file         = 100_000
-UID.configuration.path             = Rails.root.join('config/uids')
-UID.configuration.file_prefix      = "uids_#{UID.configuration.digits}_"
-UID.configuration.file_extension   = '.txt'
-UID.configuration.seed             = ENV['UID_GENERATOR_SEED'].to_i
+UID.configuration.sequence_source = :postgres
+UID.configuration.sequence_7_name = 'uid_7_digit_seq'
+UID.configuration.sequence_9_name = 'uid_9_digit_seq'
+UID.configuration.sequence_7_seed = ENV['UID_SEQUENCE_7_SEED'].to_i
+UID.configuration.sequence_9_seed = ENV['UID_SEQUENCE_9_SEED'].to_i

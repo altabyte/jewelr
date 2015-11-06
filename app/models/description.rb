@@ -1,5 +1,5 @@
 class Description < ActiveRecord::Base
-  include UniquelyIdentifiable
+  include Sequence7Identifiable
 
   has_many :ingredients, -> { order('position ASC') }
   has_many :materials, -> { distinct }, through: :ingredients

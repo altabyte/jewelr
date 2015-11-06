@@ -1,7 +1,7 @@
 require 'serializers/hash_serializer'
 
 class User < ActiveRecord::Base
-  include UniquelyIdentifiable
+  include Sequence9Identifiable
 
   AUTH_TOKEN_LENGTH = 100
 

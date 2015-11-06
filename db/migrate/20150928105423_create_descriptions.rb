@@ -1,6 +1,8 @@
 class CreateDescriptions < ActiveRecord::Migration
   def change
-    create_table :descriptions do |t|
+    create_table(:descriptions, id: false) do |t|
+
+      t.primary_key :id, :integer, null: false
 
       t.string    :type,                      null: false
 

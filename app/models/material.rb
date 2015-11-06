@@ -1,7 +1,7 @@
 require 'serializers/hash_serializer'
 
 class Material < ActiveRecord::Base
-  include UniquelyIdentifiable
+  include Sequence7Identifiable
   include LocaleNameable
 
   # http://szeliga.me/sorting-active-record-relation-by-postgresql-hstore-value/
