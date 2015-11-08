@@ -50,7 +50,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
-    byebug (8.0.0)
+    byebug (8.0.1)
     closure_tree (6.0.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)

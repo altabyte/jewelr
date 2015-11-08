@@ -1,5 +1,14 @@
 require 'uid/reset'
-UID::Reset.reset
+
+sequence_name = UID.configuration.sequence_7_name
+diff = UID::Reset.reset(sequence_name, 0)
+puts "#{UID.configuration.sequence_source.to_s.capitalize} sequence '#{sequence_name}' index value RESET from #{diff.first} to #{diff.last}"
+UID::Reset.reset(sequence_name)
+
+sequence_name = UID.configuration.sequence_9_name
+diff = UID::Reset.reset(sequence_name, 0)
+puts "#{UID.configuration.sequence_source.to_s.capitalize} sequence '#{sequence_name}' index value RESET from #{diff.first} to #{diff.last}"
+UID::Reset.reset(sequence_name)
 
 SEEDS_DIR = "#{__dir__}/seeds"
 
