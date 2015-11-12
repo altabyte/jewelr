@@ -44,6 +44,39 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: colours; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE colours (
+    id integer NOT NULL,
+    hue double precision NOT NULL,
+    saturation double precision NOT NULL,
+    luminosity double precision NOT NULL,
+    rgb integer NOT NULL,
+    name_id integer
+);
+
+
+--
+-- Name: colours_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE colours_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: colours_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE colours_id_seq OWNED BY colours.id;
+
+
+--
 -- Name: descriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -197,7 +230,22 @@ CREATE TABLE users (
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY colours ALTER COLUMN id SET DEFAULT nextval('colours_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY ingredients ALTER COLUMN id SET DEFAULT nextval('ingredients_id_seq'::regclass);
+
+
+--
+-- Name: colours_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY colours
+    ADD CONSTRAINT colours_pkey PRIMARY KEY (id);
 
 
 --
@@ -230,6 +278,27 @@ ALTER TABLE ONLY materials
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_colours_on_hue; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_colours_on_hue ON colours USING btree (hue);
+
+
+--
+-- Name: index_colours_on_luminosity; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_colours_on_luminosity ON colours USING btree (luminosity);
+
+
+--
+-- Name: index_colours_on_saturation; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_colours_on_saturation ON colours USING btree (saturation);
 
 
 --
@@ -321,4 +390,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150925100450');
 INSERT INTO schema_migrations (version) VALUES ('20150928105423');
 
 INSERT INTO schema_migrations (version) VALUES ('20151005125603');
+
+INSERT INTO schema_migrations (version) VALUES ('20151108224209');
 

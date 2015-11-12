@@ -41,3 +41,5 @@ rails new jewelr -T --database=postgresql
 
 # Add component model to link descriptions to materials.
 ./bin/rails g model Ingredient position:integer significance:integer genuine:boolean adjective:string
+
+./bin/rails g model Colour h:integer s:integer l:integer
