@@ -49,6 +49,8 @@ SET default_with_oids = false;
 
 CREATE TABLE colours (
     id integer NOT NULL,
+    description_id integer NOT NULL,
+    "position" integer,
     hue double precision NOT NULL,
     saturation double precision NOT NULL,
     luminosity double precision NOT NULL,
@@ -292,6 +294,13 @@ CREATE INDEX index_colours_on_hue ON colours USING btree (hue);
 --
 
 CREATE INDEX index_colours_on_luminosity ON colours USING btree (luminosity);
+
+
+--
+-- Name: index_colours_on_rgb; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_colours_on_rgb ON colours USING btree (rgb);
 
 
 --

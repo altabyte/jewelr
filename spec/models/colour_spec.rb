@@ -4,12 +4,13 @@ RSpec.describe Colour, type: :model do
 
   describe 'initialize' do
 
+    let(:description) { FactoryGirl.create(:description) }
     let(:colour_name) { 'Royal Blue' }
 
     context 'Fixnum' do
 
       context '0' do
-        subject(:colour) { Colour.create(rgb: 0) }
+        subject(:colour) { Colour.create(rgb: 0, description: description) }
 
         it { is_expected.to be_valid }
 
@@ -29,7 +30,7 @@ RSpec.describe Colour, type: :model do
       end
 
       context 'Royal Blue' do
-        subject(:colour) { Colour.create(rgb: 4286945) }
+        subject(:colour) { Colour.create(rgb: 4286945, description: description) }
 
         it { is_expected.to be_valid }
 
@@ -51,7 +52,7 @@ RSpec.describe Colour, type: :model do
     context 'from Color:RGB' do
       let(:rgb) { Color::RGB.new(65, 105, 225) }
 
-      subject(:colour) { Colour.create(rgb: rgb) }
+      subject(:colour) { Colour.create(rgb: rgb, description: description) }
 
       it { is_expected.to be_valid }
 
@@ -65,7 +66,7 @@ RSpec.describe Colour, type: :model do
     context 'from hex string' do
 
       context 'valid' do
-        subject(:colour) { Colour.create(rgb: '#4169E1') }
+        subject(:colour) { Colour.create(rgb: '#4169E1', description: description) }
 
         it { is_expected.to be_valid }
 
@@ -77,7 +78,7 @@ RSpec.describe Colour, type: :model do
       end
 
       context 'invalid' do
-        subject(:colour) { Colour.create(rgb: 'ZZZZ') }
+        subject(:colour) { Colour.create(rgb: 'ZZZZ', description: description) }
 
         it 'has no values set' do
           is_expected.not_to be_valid

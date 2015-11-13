@@ -5,6 +5,10 @@ require 'color'
 #
 class Colour < ActiveRecord::Base
 
+  belongs_to :description
+
+  acts_as_list scope: :description
+
   before_validation :derive_hsl_from_rgb
   #before_save(on: :create) { find_named_colour }
 
