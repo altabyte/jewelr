@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Colour, type: :model do
 
+  let(:description) { FactoryGirl.create(:description) }
+
   describe 'initialize' do
 
-    let(:description) { FactoryGirl.create(:description) }
     let(:colour_name) { 'Royal Blue' }
 
     context 'Fixnum' do
@@ -88,6 +89,49 @@ RSpec.describe Colour, type: :model do
           expect(colour.luminosity).to be_nil
         end
       end
+    end
+  end
+
+
+  describe 'name' do
+    it { is_expected.to respond_to :named_colour_list }
+
+    # Greyscale colours have a Hue of 0°
+    context 'Greyscale colours' do
+
+      it 'Classifies very dark greys as black' do
+        %w'#000000 #111111 #222222'.each do |hex|
+          colour = Colour.create(rgb: hex, description: description)
+          expect(colour.name).to eq('Black')
+        end
+      end
+
+      it 'Classifies dark greys as dark-grey' do
+        %w'#303030'.each do |hex|
+          colour = Colour.create(rgb: hex, description: description)
+          expect(colour.name).to eq('Dark Grey')
+        end
+      end
+    end
+
+    context 'Cherry pink' do
+      subject(:colour) { Colour.create(rgb: '#E61870', description: description) }
+
+      it { expect(colour.name).to eq('Cherry') }
+      it { expect(colour.name(:en)).to eq('Cherry') }
+      it { expect(colour.name(:xyz)).to eq('Cherry') }
+      it { expect(colour.name(:ebay)).to eq('Pink') }
+      it { expect(colour.name(:amazon)).to eq('Pink') }
+    end
+
+    context 'Jasper' do
+      subject(:colour) { Colour.create(rgb: '#D73B3E', description: description) }
+      it { expect(colour.name).to eq('Jasper') }
+    end
+
+    context 'Redwood' do
+      subject(:colour) { Colour.create(rgb: '#A45A52', description: description) }
+      it { expect(colour.name).to eq('Redwood') }
     end
   end
 end
