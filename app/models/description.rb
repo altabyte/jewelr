@@ -29,8 +29,6 @@ class Description < ActiveRecord::Base
            with_model_currency: :target_price_currency,
            numericality: { greater_than: 0 }
 
-  before_validation :ensure_unique_colours
-
   def archived=(time = true)
     if time.is_a? Time
       self[:archived] = time
@@ -48,12 +46,5 @@ class Description < ActiveRecord::Base
         end
       end
     end
-  end
-
-  #---------------------------------------------------------------------------
-  private
-
-  def ensure_unique_colours
-
   end
 end
