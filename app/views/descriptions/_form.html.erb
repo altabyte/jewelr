@@ -59,5 +59,12 @@
           </ol>
         </fieldset>
       </div>
+
+      <div id="colours">
+        <%= f.simple_fields_for :colours do |colour| %>
+          <%= colour.input :hex %>
+        <% end -%>
+        <div id="add-new-colour-button">+</div>
+      </div>
     </div>
 <% end %>

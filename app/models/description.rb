@@ -16,6 +16,7 @@ class Description < ActiveRecord::Base
 
   # Add { _destroy: '1' } to ingredients attributes hash to destroy it from a form submission.
   accepts_nested_attributes_for :ingredients, allow_destroy: true
+  accepts_nested_attributes_for :colours,     allow_destroy: true
 
   validates :type, presence: true
 
