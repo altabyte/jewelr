@@ -94,5 +94,17 @@
         }
       }
     }
+
+    #colours {
+      #add-colour-button {
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid silver;
+        padding: 3px 5px;
+        max-width: 90px;
+        text-align: center;
+        margin: 4px 0;
+      }
+    }
   }
 }

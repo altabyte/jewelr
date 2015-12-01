@@ -49,10 +49,10 @@ $(document).on("ready page:load", function () {
                     '>' +
                     '</li>';
 
-                $(newColourHTML).appendTo("#colours-list").show('slow');
+                $(newColourHTML).appendTo("#colours-list").show('fast');
             }
 
-            $('#add-new-colour-button').click(function () {
+            $('#add-colour-button').click(function () {
                 addColourInputHandler();
             });
         }

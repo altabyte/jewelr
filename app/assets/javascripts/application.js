@@ -17,4 +17,6 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require devise
+//= require descriptions
+//= require kolorpicker.js
