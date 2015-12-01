@@ -131,7 +131,8 @@ class DescriptionsController < ApplicationController
         colour_params = colour.last
         begin
           hex = colour_params.delete(:hex)
-          raise unless hex && hex =~ /^[#]?[0-9A-F]+$/i
+          raise unless hex && hex =~ /^[#]?[0-9A-F]{6}$/i
+          hex = "##{hex}" unless hex[0] == '#'
           colour_params[:rgb] = hex
         rescue
           colour_params[:_destroy] = '1'

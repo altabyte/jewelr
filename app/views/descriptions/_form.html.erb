@@ -61,10 +61,22 @@
       </div>
 
       <div id="colours">
-        <%= f.simple_fields_for :colours do |colour| %>
-          <%= colour.input :hex %>
-        <% end -%>
-        <div id="add-new-colour-button">+</div>
+        <fieldset>
+          <legend><%= t('description.edit.colours') %></legend>
+          <ol id="colours-list">
+            <% @description.colours.sort { |c1, c2| c1.position <=> c2.position }.each do |colour| -%>
+                <%= content_tag :li,
+                                class: 'colour',
+                                data: {
+                                    id: colour.id,
+                                    hex: colour.hex,
+                                    position: colour.position
+                                } do %>
+                <% end %>
+            <% end -%>
+          </ol>
+          <div id="add-new-colour-button">Add new colour</div>
+        </fieldset>
       </div>
     </div>
 <% end %>
