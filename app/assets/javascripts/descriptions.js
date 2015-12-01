@@ -36,7 +36,7 @@ $(document).on("ready page:load", function () {
             $('#colours-list .colour').append(function () {
                 var id  = $(this).data('id');
                 var hex =  $(this).data('hex').toString().toUpperCase();
-                var string = '<input type="text" class="kolorPicker" value="' + hex + '" ' + nestedModelIdAndName('Colour', id, 'hex') + '>';
+                var string = '<input type="text" class="kolorPicker" value="' + hex + '" ' + 'style="color: #' + hex + '; background-color: #' + hex + ';"' + nestedModelIdAndName('Colour', id, 'hex') + '>';
                 string += '<input type="hidden" value="' + id + '" ' + nestedModelIdAndName('Colour', id, 'id') + '>';
                 return string;
             });

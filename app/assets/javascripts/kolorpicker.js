@@ -96,7 +96,7 @@ $(document).ready(function() {
   }
 
   function cleanPicker() {
-    $('.kolorPicker').removeAttr('style'); 
+    //$('.kolorPicker').removeAttr('style');
             
     $('#kolorPicker').unwrap();
 
@@ -156,6 +156,9 @@ $(document).ready(function() {
     cleanPicker();
 
     $(input).val(color);
+
+    $(input).css('background-color', color);
+    $(input).css('color', color);
 
     $(input).change();
   });
