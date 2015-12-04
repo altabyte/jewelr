@@ -13,19 +13,64 @@ $(document).on("ready page:load", function () {
 
     if ($("#descriptions #new, #descriptions #edit").length) {
 
+        function nestedModelIdAndName(nestedModel, index, field, subField) {
+            return 'id="' + nestedModelID(nestedModel, index, field, subField) +
+                '" name="' + nestedModelName(nestedModel, index, field) + '"';
+        }
+
+        function nestedModelID(nestedModel, index, field, subField) {
+            var id = '' + gon.description_type + '_' + nestedModel.toLowerCase() + 's_attributes' + '_' + index + '_' + field;
+            if (subField !== undefined) {
+                id += '_' + subField;
+            }
+            return id;
+        }
+
+        function nestedModelName(nestedModel, index, field) {
+            return '' + gon.description_type + '[' + nestedModel.toLowerCase() + 's_attributes' + '][' + index + '][' + field + ']';
+        }
+
+        //--------------------------------------------------------------------
+        if ($("#colours").length) {
+
+            $('#colours-list .colour').append(function () {
+                var id  = $(this).data('id');
+                var hex =  $(this).data('hex').toString().toUpperCase();
+                var string = '<input type="text" class="kolorPicker" value="' + hex + '" ' + 'style="color: #' + hex + '; background-color: #' + hex + ';"' + nestedModelIdAndName('Colour', id, 'hex') + '>';
+                string += '<input type="hidden" value="' + id + '" ' + nestedModelIdAndName('Colour', id, 'id') + '>';
+                return string;
+            });
+
+            function addColourInputHandler() {
+                var newColourHTML =
+                    '<li class="colour" style="display: none;">' +
+                    '<input type="text" class="kolorPicker"' +
+                    nestedModelIdAndName('Colour', Date.now(), 'hex') +
+                    '>' +
+                    '</li>';
+
+                $(newColourHTML).appendTo("#colours-list").show('fast');
+            }
+
+            $('#add-colour-button').click(function () {
+                addColourInputHandler();
+            });
+        }
+
+        //--------------------------------------------------------------------
         if ($("#ingredients").length) {
 
             var locale = gon.locale !== undefined ? gon.locale : 'en';
             var ingredientsCount = 0;
 
-            function reindexPositions() {
+            function reindexIngredientPositions() {
                 $('#ingredients-list .ingredient').each(function (index) {
                     $(this).find('.position').val(index + 1);
                 });
             }
 
             function addMaterialEventHandler() {
-                reindexPositions();
+                reindexIngredientPositions();
                 var ingredient_id = null;
                 var material_id = $('#add-ingredient-button').data().material_id;
                 var materialNameEN = $('#add-ingredient-button').data().material_name_en;
@@ -64,28 +109,11 @@ $(document).on("ready page:load", function () {
                         $(this).closest('li').hide('slow', function () {
                             $(this).closest('li').remove();
                         });
-                        reindexPositions();
+                        reindexIngredientPositions();
                     });
 
                 $("#add-ingredient-button").removeData('material_id');
                 $('#material-name-input').val('');
-            }
-
-            function nestedModelIdAndName(nestedModel, index, field, subField) {
-                return 'id="' + nestedModelID(nestedModel, index, field, subField) +
-                    '" name="' + nestedModelName(nestedModel, index, field) + '"';
-            }
-
-            function nestedModelID(nestedModel, index, field, subField) {
-                var id = '' + gon.description_type + '_' + nestedModel.toLowerCase() + 's_attributes' + '_' + index + '_' + field;
-                if (subField !== undefined) {
-                    id += '_' + subField;
-                }
-                return id;
-            }
-
-            function nestedModelName(nestedModel, index, field) {
-                return '' + gon.description_type + '[' + nestedModel.toLowerCase() + 's_attributes' + '][' + index + '][' + field + ']';
             }
 
             function getIngredientFields(ingredient_id, material_id, material_name, position, genuine, significance) {

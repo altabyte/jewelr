@@ -97,7 +97,7 @@ class DescriptionsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def description_params
     key = type.name.underscore.gsub('/', '_').to_sym # form will typically submit 'description/necklace'
-    params.require(key).permit(
+    p = params.require(key).permit(
         :type,
         :acc_price,
         :acc_price_currency,
@@ -118,7 +118,29 @@ class DescriptionsController < ApplicationController
             :position,
             :significance,
             :text,
-            :_destroy])
+            :_destroy
+        ],
+        colours_attributes: [
+            :id,
+            :hex,
+            :_destroy
+        ])
+
+    if p.key? :colours_attributes
+      p[:colours_attributes].each do |colour|
+        colour_params = colour.last
+        begin
+          hex = colour_params.delete(:hex)
+          raise unless hex && hex =~ /^[#]?[0-9A-F]{6}$/i
+          hex = "##{hex}" unless hex[0] == '#'
+          colour_params[:rgb] = hex
+        rescue
+          colour_params[:_destroy] = '1'
+        end
+        puts colour
+      end
+    end
+    p
   end
 
   def gon_materials

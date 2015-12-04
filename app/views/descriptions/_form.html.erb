@@ -59,5 +59,24 @@
           </ol>
         </fieldset>
       </div>
+
+      <div id="colours">
+        <fieldset>
+          <legend><%= t('description.edit.colours') %></legend>
+          <ol id="colours-list">
+            <% @description.colours.sort { |c1, c2| c1.position <=> c2.position }.each do |colour| -%>
+                <%= content_tag :li,
+                                class: 'colour',
+                                data: {
+                                    id: colour.id,
+                                    hex: colour.hex,
+                                    position: colour.position
+                                } do %>
+                <% end %>
+            <% end -%>
+          </ol>
+          <div id="add-colour-button">Add colour</div>
+        </fieldset>
+      </div>
     </div>
 <% end %>

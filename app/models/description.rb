@@ -1,11 +1,22 @@
 class Description < ActiveRecord::Base
   include Sequence7Identifiable
 
+  has_many :colours do
+    def <<(colour)
+      super unless includes?(colour)
+    end
+
+    def includes?(colour)
+      where(rgb: colour.rgb).count > 0
+    end
+  end
+
   has_many :ingredients, -> { order('position ASC') }
   has_many :materials, -> { distinct }, through: :ingredients
 
   # Add { _destroy: '1' } to ingredients attributes hash to destroy it from a form submission.
   accepts_nested_attributes_for :ingredients, allow_destroy: true
+  accepts_nested_attributes_for :colours,     allow_destroy: true
 
   validates :type, presence: true
 

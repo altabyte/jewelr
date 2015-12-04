@@ -26,6 +26,7 @@ en:
   description:
     edit:
       acc_price:    'Acc Price'
+      colours:      'Colours'
       currency:     'Currency'
       materials:    'Materials'
       target_price: 'Target Price'

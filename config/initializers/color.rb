@@ -16,6 +16,15 @@ class Fixnum
     rgb = [16, 8, 0].map {|x| self >> x & 255 }
     { r: rgb[0], g: rgb[1], b: rgb[2] }
   end
+
+  # Convert this integer value to a Color::RGB instance.
+  #
+  # @return [Color::RGB] the equivalent RGB color object.
+  #
+  def to_rgb_color
+    rgb = self.to_rgb
+    Color::RGB.new(rgb[:r], rgb[:g], rgb[:b])
+  end
 end
 
 
