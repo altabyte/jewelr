@@ -6,7 +6,7 @@ ruby '2.2.3'
 gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
