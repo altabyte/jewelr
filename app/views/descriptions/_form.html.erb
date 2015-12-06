@@ -26,6 +26,7 @@
       </div>
 
       <%= f.input :unique, label: t('description.edit.unique') %>
+      <%= f.input :gift_boxed, label: t('description.edit.gift_boxed') %>
 
       <div id="weights">
         <%= f.input :weight_net, label: t('description.edit.weight_net') %>
@@ -79,4 +80,7 @@
         </fieldset>
       </div>
     </div>
+
+    <%= f.input :notes, as: :text, label: t('description.edit.notes'), placeholder: 'My private notes' %>
+    <%= f.input :summary, as: :text, label: t('description.edit.summary'), placeholder: 'Custom summary' %>
 <% end %>

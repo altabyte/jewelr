@@ -87,19 +87,27 @@ CREATE TABLE descriptions (
     type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    "unique" boolean DEFAULT false NOT NULL,
     archived timestamp without time zone,
+    "unique" boolean DEFAULT false NOT NULL,
+    shop_sec_account smallint,
+    shop_sec_sku integer,
+    part_count integer DEFAULT 1 NOT NULL,
     acc_price_cents integer,
     acc_price_currency character varying,
     target_price_cents integer,
     target_price_currency character varying,
     properties jsonb DEFAULT '{}'::jsonb NOT NULL,
-    royal_mail_large_letter boolean DEFAULT false NOT NULL,
     packaged_size_x integer,
     packaged_size_y integer,
     packaged_size_z integer,
+    royal_mail_large_letter boolean DEFAULT false NOT NULL,
+    gift_boxed boolean DEFAULT false NOT NULL,
     weight_net integer,
-    weight_gross integer
+    weight_gross integer,
+    title character varying,
+    notes character varying,
+    summary character varying,
+    history jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 

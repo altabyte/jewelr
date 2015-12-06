@@ -34,6 +34,51 @@ RSpec.describe Description, type: :model do
   end
 
 
+  describe 'target_price' do
+    context 'when nil' do
+      subject(:description) { FactoryGirl.create(:description, target_price: nil) }
+      it { is_expected.to be_valid }
+      it { expect(description.target_price).to be_nil }
+    end
+
+    context 'when GBP' do
+      let(:cents)    { 12_99 }
+      let(:currency) { 'GBP' }
+      subject(:description) { FactoryGirl.create(:description, target_price: Money.new(cents, currency)) }
+
+      it { is_expected.to be_valid }
+      it { expect(description.target_price).not_to be_nil }
+      it { expect(description.target_price.cents).to eq(cents) }
+      it { expect(description.target_price.currency).to eq(currency) }
+    end
+  end
+
+
+  describe 'part_count' do
+    subject(:description) { FactoryGirl.create(:description) }
+
+    it { should validate_presence_of(:part_count) }
+
+    context 'when not defined' do
+      it { expect(description.part_count).to eq(1) }
+    end
+
+    context 'when not valid' do
+      it 'does not accept values less than 1' do
+        description.part_count = 0
+        expect(description).not_to be_valid
+        expect(description.errors).to have_key(:part_count)
+      end
+
+      it 'does not accept null' do
+        description.part_count = nil
+        expect(description).not_to be_valid
+        expect(description.errors).to have_key(:part_count)
+      end
+    end
+  end
+
+
   describe 'colours' do
     subject(:description) { FactoryGirl.create(:description) }
 
@@ -97,22 +142,40 @@ RSpec.describe Description, type: :model do
   end
 
 
-  describe 'target_price' do
-    context 'when nil' do
-      subject(:description) { FactoryGirl.create(:description, target_price: nil) }
-      it { is_expected.to be_valid }
-      it { expect(description.target_price).to be_nil }
+  describe 'notes' do
+    context 'when blank' do
+      [nil, '', '   '].each do |notes|
+        subject(:description) { FactoryGirl.create(:description, notes: notes) }
+        it { expect(description.notes).to be_nil }
+        it { expect(description.notes?).to be false }
+      end
     end
 
-    context 'when GBP' do
-      let(:cents)    { 12_99 }
-      let(:currency) { 'GBP' }
-      subject(:description) { FactoryGirl.create(:description, target_price: Money.new(cents, currency)) }
+    context 'when valid text' do
+      subject(:description) { FactoryGirl.create(:description, notes: '  This   is   some   notes.  ') }
 
-      it { is_expected.to be_valid }
-      it { expect(description.target_price).not_to be_nil }
-      it { expect(description.target_price.cents).to eq(cents) }
-      it { expect(description.target_price.currency).to eq(currency) }
+      it { expect(description.notes).not_to be_nil }
+      it { expect(description.notes?).to be true }
+      it { expect(description.notes).to eq('This is some notes.') }
+    end
+  end
+
+
+  describe 'summary' do
+    context 'when blank' do
+      [nil, '', '   '].each do |summary|
+        subject(:description) { FactoryGirl.create(:description, summary: summary) }
+        it { expect(description.summary).to be_nil }
+        it { expect(description.summary?).to be false }
+      end
+    end
+
+    context 'when valid text' do
+      subject(:description) { FactoryGirl.create(:description, summary: '  This is a *bold* summary.  ') }
+
+      it { expect(description.summary).not_to be_nil }
+      it { expect(description.summary?).to be true }
+      it { expect(description.summary).to eq('This is a *bold* summary.') }
     end
   end
 
@@ -160,6 +223,30 @@ RSpec.describe Description, type: :model do
         description.archived = 2
         is_expected.not_to be_archived
       end
+    end
+  end
+
+  describe 'shop_sec legacy SKUs' do
+    it { is_expected.to respond_to :shop_sec_account }
+    it { is_expected.to respond_to :shop_sec_sku }
+    it { is_expected.to respond_to 'shop_sec_AR?' }
+    it { is_expected.to respond_to 'shop_sec_AR!' }
+    it { is_expected.to respond_to 'shop_sec_TT?' }
+    it { is_expected.to respond_to 'shop_sec_TT!' }
+
+    context 'when not defined' do
+      subject(:description) { FactoryGirl.create(:description) }
+      it { expect(description.shop_sec_account).to be_nil }
+      it { expect(description.shop_sec_sku).to be_nil }
+    end
+
+    context 'when TT' do
+      let(:sku) { 12345 }
+      subject(:description) { FactoryGirl.create(:description, shop_sec_account: 1, shop_sec_sku: sku) }
+      it { expect(description.shop_sec_sku).to eq(sku) }
+      it { expect(description.shop_sec_account).not_to be_nil }
+      it { expect(description.shop_sec_account).to eq('shop_sec_TT') }
+      it { expect(description).to be_shop_sec_TT }
     end
   end
 end

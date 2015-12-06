@@ -19,6 +19,7 @@ class Description < ActiveRecord::Base
   accepts_nested_attributes_for :colours,     allow_destroy: true
 
   validates :type, presence: true
+  validates :part_count, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   monetize :acc_price_cents,
            allow_nil: true,
@@ -29,6 +30,8 @@ class Description < ActiveRecord::Base
            allow_nil: true,
            with_model_currency: :target_price_currency,
            numericality: { greater_than: 0 }
+
+  enum shop_sec_account: { shop_sec_TT: 1, shop_sec_AR: 2, shop_sec_CS: 3 }
 
   def archived=(time = true)
     if time.is_a? Time
@@ -47,5 +50,15 @@ class Description < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def notes=(notes)
+    notes = notes.to_s.strip.gsub(/[ \t]+/, ' ')
+    self[:notes] = notes.blank? ? nil : notes
+  end
+
+  def summary=(summary)
+    summary = summary.to_s.strip
+    self[:summary] = summary.blank? ? nil : summary
   end
 end
