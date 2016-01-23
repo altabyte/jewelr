@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
-
 # Must be before other gems that rely on environmental variables!
 gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
 
@@ -10,9 +8,9 @@ gem 'rails', '4.2.5'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
-gem 'sass-rails', '~> 5.0'        # Use SCSS for stylesheets
-gem 'uglifier', '>= 1.3.0'        # Use Uglifier as compressor for JavaScript assets
-gem 'coffee-rails', '~> 4.1.0'    # Use CoffeeScript for .coffee assets and views
+gem 'sass-rails',       '~> 5.0'        # Use SCSS for stylesheets
+gem 'uglifier',         '~> 2.7'        # Use Uglifier as compressor for JavaScript assets
+gem 'coffee-rails',     '~> 4.1.0'      # Use CoffeeScript for .coffee assets and views
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
