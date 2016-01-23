@@ -23,32 +23,17 @@ gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-# https://github.com/swanandp/acts_as_list
-gem 'acts_as_list'
 
-# https://github.com/toretore/barby
-gem 'barby'
-
-# https://github.com/halostatue/color
-gem 'color'
-
-# https://github.com/mceachen/closure_tree
-gem 'closure_tree'
-
-# https://github.com/plataformatec/devise
-gem 'devise', '~> 3.5'
-
-# https://github.com/gazay/gon
-gem 'gon'
-
-# https://github.com/RubyMoney/money-rails
-gem 'money-rails'
-
-# https://github.com/altabyte/scatter_swap
+gem 'acts_as_list'                  # https://github.com/swanandp/acts_as_list
+gem 'barby'                         # https://github.com/toretore/barby
+gem 'color'                         # https://github.com/halostatue/color
+gem 'closure_tree'                  # https://github.com/mceachen/closure_tree
+gem 'devise', '~> 3.5'              # https://github.com/plataformatec/devise
+gem 'font-awesome-rails'            # https://github.com/bokmann/font-awesome-rails
+gem 'gon'                           # https://github.com/gazay/gon
+gem 'money-rails'                   # https://github.com/RubyMoney/money-rails
 gem 'scatter_swap', git: 'https://github.com/altabyte/scatter_swap'
-
-# https://github.com/plataformatec/simple_form
-gem 'simple_form'
+gem 'simple_form'                   # https://github.com/plataformatec/simple_form
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.0'
