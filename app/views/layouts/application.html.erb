@@ -9,24 +9,58 @@
 <body>
 
 <header>
-  <nav id="access-links">
-    <% if user_signed_in? -%>
-        <%= current_user.email %> &nbsp;
-        <%= link_to 'Logout', destroy_user_session_path, :method => :delete, :confirm => 'Are you sure you want to log out?' %>
-    <% else -%>
-        <%#= link_to "Sign up", new_user_registration_path %>
-        <%= link_to (t 'devise.fields.login'), new_user_session_path %>
-    <% end -%>
+  <!-- Static navbar -->
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jewelr</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/"><i class="fa fa-home"> &nbsp; </i>Home</a></li>
+          <li><a href="<%= materials_path %>"><i class="fa fa-cubes"> &nbsp; </i>Materials</a></li>
+          <li><a href="<%= descriptions_path %>"><i class="fa fa-diamond"> &nbsp; </i>Descriptions</a></li>
+          <% if user_signed_in? -%>
+              <li class="dropdown">
+                <%
+                  display_name = current_user.username.to_s
+                  display_name = [current_user.name_first, current_user.name_last].join(' ') if display_name == current_user.id.to_s
+                %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false"><%= display_name %><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Settings', edit_user_registration_path(current_user) %></li>
+                  <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete, :confirm => 'Are you sure you want to log out?' %></li>
+                </ul>
+              </li>
+          <% else -%>
+              <li><a href=<%= new_user_session_path %>><i class="fa"> &nbsp; </i>Login</a></li>
+          <% end -%>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
   </nav>
+
   <div id="flash">
-    <p id="notice" class="notice"><%= notice %></p>
-    <p id="alert" class="alert"><%= alert %></p>
+    <% flash.each do |type, msg| %>
+        <%= content_tag :p, msg, class: "#{type} message" %>
+    <% end %>
   </div>
 </header>
 
 <div id="<%= controller_name %>">
   <div id="<%= action_name %>">
-    <%= yield %>
+    <div id="action-content">
+      <%= yield %>
+    </div>
   </div>
 </div>
 

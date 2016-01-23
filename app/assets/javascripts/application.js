@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap
 //= require jquery-ui/autocomplete
 //= require jquery-ui/button
 //= require jquery-ui/sortable

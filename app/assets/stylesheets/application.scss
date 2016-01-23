@@ -19,6 +19,16 @@ $h-color: #8B0000;
 $text-color: #696969;
 $text-box-border-color: #DCDCDC;
 
+/* OAuth provider colours */
+$github-color: #829AA8;
+$google-plus-color: #d34836;
+$linkedin-color: #007AB9;
+$facebook-color: #3b5998;
+$twitter-color: #55acee;
+
+@import 'font-awesome';
+@import 'bootstrap.css';
+
 @import 'global.scss';
 @import 'barcode.scss';
 @import 'simple_form';

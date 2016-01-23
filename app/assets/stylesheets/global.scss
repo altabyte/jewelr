@@ -43,25 +43,46 @@ input[type=submit], select {
   border: 1px solid #ccc;
 }
 
-header {
-  position: relative;
-  height: 30px;
+header .navbar-brand {
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+.navbar-default {
+  background-color: transparent;
+  /*border-color: rgba(130,214,237,.3);*/
+
+  .navbar-brand {
+    color: #3d4c72;
+    font-size: 1.8em;
+
+    &:hover {
+      color: darken(#3d4c72, 20%);
+    }
+  }
 }
 
 #flash {
   text-align: center;
 
+  .message {
+    display: block;
+    max-width: 400px;
+    margin: 4px auto;
+    padding: 4px 12px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #4d394b;
+  }
+
   .alert {
-    color: $h-color;
+    background-color: #edb624;
   }
 
   .notice {
-    color: #003399;
+    background-color: #49c49f;
+    color: #ffffff;
   }
-}
-
-#header {
-  position: relative;
 }
 
 #access-links {

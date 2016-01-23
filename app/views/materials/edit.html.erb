@@ -1,4 +1,6 @@
-<h1>Editing <%= @type.to_s.split(':').last %></h1>
-<%= barcode(@material.id) unless @material.new_record? %>
+<div class="container">
+  <h1>Editing <%= @type.to_s.split(':').last %></h1>
+  <%= barcode(@material.id) unless @material.new_record? %>
 
-<%= render 'form' %>
+  <%= render 'form' %>
+</div>
